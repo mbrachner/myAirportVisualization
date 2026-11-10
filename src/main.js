@@ -25,7 +25,7 @@ import "./style.css";
 
 import { AIRPORT, summarize } from "./osm.js";
 import { loadAirportData } from "./data.js";
-import { buildDataSources, LAYER_DEFS } from "./layers.js";
+import { buildLayers, heightQueries, LAYER_DEFS } from "./layers.js";
 
 const ION_TOKEN = import.meta.env.VITE_CESIUM_ION_TOKEN?.trim();
 const GOOGLE_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY?.trim();
@@ -141,23 +141,38 @@ viewer.scene.skyAtmosphere.show = true;
 let photorealTileset;
 let osmBuildingsTileset;
 
-/** Height of the visible ground (terrain or 3D tiles) at a position, in metres above the ellipsoid. */
-async function groundHeight(lon, lat) {
-  const carto = Cartographic.fromDegrees(lon, lat);
+// Our own primitives, excluded when sampling heights so we don't measure building roofs.
+let ownPrimitives = [];
+
+/**
+ * Heights of the visible ground (terrain or photorealistic 3D tiles) for many [lon, lat] points
+ * in one batch, in metres above the ellipsoid. Flat terrain needs no sampling at all.
+ */
+async function groundHeights(points) {
+  const fallback = photorealTileset?.show ? AIRPORT.elevationMsl + 38 : 0; // ~38 m geoid height at Gardermoen
+  const heights = points.map(() => fallback);
+  const todo = () => heights.map((h, i) => (h === fallback ? i : -1)).filter((i) => i >= 0);
   try {
     if (photorealTileset?.show && viewer.scene.sampleHeightSupported) {
-      const [res] = await viewer.scene.sampleHeightMostDetailed([carto]);
-      if (Number.isFinite(res?.height)) return res.height;
+      const cartos = points.map(([lon, lat]) => Cartographic.fromDegrees(lon, lat));
+      const res = await viewer.scene.sampleHeightMostDetailed(cartos, ownPrimitives);
+      res.forEach((c, i) => Number.isFinite(c?.height) && (heights[i] = c.height));
     }
     if (!(viewer.terrainProvider instanceof EllipsoidTerrainProvider)) {
-      const [res] = await sampleTerrainMostDetailed(viewer.terrainProvider, [carto]);
-      if (Number.isFinite(res?.height)) return res.height;
+      const idx = todo();
+      if (idx.length) {
+        const cartos = idx.map((i) => Cartographic.fromDegrees(...points[i]));
+        const res = await sampleTerrainMostDetailed(viewer.terrainProvider, cartos);
+        res.forEach((c, k) => Number.isFinite(c?.height) && (heights[idx[k]] = c.height));
+      }
     }
-  } catch {
-    // Fall through to the flat-earth default.
+  } catch (err) {
+    console.warn("Height sampling failed, using fallback heights", err);
   }
-  return photorealTileset?.show ? AIRPORT.elevationMsl + 38 : 0; // ~38 m geoid height at Gardermoen
+  return heights;
 }
+
+const groundHeight = async (lon, lat) => (await groundHeights([[lon, lat]]))[0];
 
 async function lookAt(lon, lat, { range, pitch = -35, heading = 0, duration = 2.5 } = {}) {
   const h = await groundHeight(lon, lat);
@@ -236,6 +251,8 @@ if (GOOGLE_KEY) {
       if (buildingToggle && buildingToggle.checked === on) buildingToggle.click();
       if (osmBuildingsTileset && on) osmBuildingsTileset.show = false;
       status(on ? "Google photorealistic 3D tiles on" : "Google photorealistic 3D tiles off");
+      // Points and labels must sit on the new ground surface.
+      scheduleRebuild();
     } catch (err) {
       console.error(err);
       status(`Could not load Google 3D tiles: ${err.message}`);
@@ -280,25 +297,55 @@ searchInput.addEventListener("change", () => {
 // ---------------------------------------------------------------------------
 // Data
 
-let dataSources = [];
+let airportLayers;
+let collections = {};
+let buildToken = 0;
+const visibility = Object.fromEntries(LAYER_DEFS.map((d) => [d.key, d.show]));
+
+/** (Re)create the primitives for the current data, terrain and 3D tiles. */
+async function rebuild() {
+  if (!airportLayers) return;
+  const token = ++buildToken;
+  const queries = heightQueries(airportLayers);
+  const heights = await groundHeights(queries);
+  if (token !== buildToken) return; // a newer rebuild started meanwhile
+  const lookup = new Map(queries.map((q, i) => [q.join(","), heights[i]]));
+  const { collections: next, index } = buildLayers(airportLayers, (p) => lookup.get(p.join(",")) ?? 0);
+
+  for (const c of Object.values(collections)) viewer.scene.primitives.remove(c);
+  collections = next;
+  ownPrimitives = [];
+  for (const def of LAYER_DEFS) {
+    const c = collections[def.key];
+    c.show = visibility[def.key];
+    viewer.scene.primitives.add(c);
+    for (let i = 0; i < c.length; i++) ownPrimitives.push(c.get(i));
+  }
+  return index;
+}
+
+let rebuildTimer;
+function scheduleRebuild() {
+  clearTimeout(rebuildTimer);
+  rebuildTimer = setTimeout(rebuild, 250);
+}
+viewer.scene.terrainProviderChanged.addEventListener(scheduleRebuild);
 
 async function loadData({ live = false } = {}) {
   status(live ? "Fetching live OpenStreetMap data …" : "Loading airport data …");
   try {
     const { layers, source } = await loadAirportData({ live });
-    for (const ds of dataSources) viewer.dataSources.remove(ds, true);
-    const { sources, index } = buildDataSources(layers);
-    dataSources = [];
+    airportLayers = layers;
+    const index = await rebuild();
+    const counts = summarize(layers);
 
     const layersBox = $("#layers");
     layersBox.innerHTML = "";
-    const counts = summarize(layers);
     for (const def of LAYER_DEFS) {
-      const ds = sources[def.key];
-      ds.show = def.show;
-      await viewer.dataSources.add(ds);
-      dataSources.push(ds);
-      const input = addToggle(layersBox, `${def.label} (${counts[def.key]})`, def.show, (on) => (ds.show = on));
+      const input = addToggle(layersBox, `${def.label} (${counts[def.key]})`, visibility[def.key], (on) => {
+        visibility[def.key] = on;
+        if (collections[def.key]) collections[def.key].show = on;
+      });
       if (def.key === "building") buildingToggle = input;
     }
 
@@ -326,6 +373,9 @@ async function loadData({ live = false } = {}) {
 }
 
 $("#reload").addEventListener("click", () => loadData({ live: true }));
+
+// Expose the viewer for debugging and benchmarks: open the page with ?debug
+if (new URLSearchParams(location.search).has("debug")) window.__viewer = viewer;
 
 await loadData();
 overview(3);
