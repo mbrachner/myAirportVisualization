@@ -31,9 +31,13 @@ jobs:
       - run: npm test
 
       # Bundle a snapshot of the Gardermoen OpenStreetMap data so the site loads instantly.
-      # Start from the last good snapshot, so a busy Overpass server doesn't leave the site without
-      # one. If there is no snapshot at all, the site fetches the data live in the browser.
+      # Priority: a snapshot committed to the repo (public/data/engm-osm.json, made with
+      # `npm run fetch-osm` on your own machine) > a fresh download > the last good download from
+      # the Actions cache. With none of them, the site fetches the data live in the browser.
+      # Public Overpass servers often refuse or ignore GitHub's shared runners, so a committed
+      # snapshot is the reliable option.
       - name: Restore last OpenStreetMap snapshot
+        if: hashFiles('public/data/engm-osm.json') == ''
         uses: actions/cache/restore@v4
         with:
           path: public/data/engm-osm.json

@@ -79,7 +79,9 @@ export async function fetchOverpass({
         if (!Array.isArray(json.elements)) throw new Error("unexpected response");
         return json;
       } catch (err) {
-        const message = err.name === "AbortError" ? `no answer within ${Math.round(timeoutMs / 1000)} s` : err.message;
+        const cause = err.cause?.code ?? err.cause?.message;
+        const message =
+          err.name === "AbortError" ? `no answer within ${Math.round(timeoutMs / 1000)} s` : cause ? `${err.message} (${cause})` : err.message;
         log(`  failed: ${message}`);
         errors.push(`${url}: ${message}`);
       } finally {

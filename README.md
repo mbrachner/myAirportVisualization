@@ -50,6 +50,11 @@ Saving a snapshot makes loading instant and reproducible:
 npm run fetch-osm
 ```
 
+**For GitHub Pages, commit the snapshot.** Public Overpass servers often refuse or ignore requests
+from GitHub's shared build machines, so the workflow's own download is unreliable. Run
+`npm run fetch-osm` on your computer and commit `public/data/engm-osm.json`; the workflow then uses
+it (and still tries to refresh it). Repeat whenever you want newer map data.
+
 The **Reload live OSM data** button always fetches fresh data from Overpass.
 
 ## Arrival demo
