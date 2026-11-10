@@ -12,6 +12,21 @@ export default defineConfig({
   base: "./",
   // Cesium is one large library; splitting it brings little benefit here.
   build: { chunkSizeWarningLimit: 5000 },
+  // `npm run dev` proxies the public ADS-B APIs, which may not allow direct browser (CORS) requests.
+  server: {
+    proxy: {
+      "/adsb-dev/adsblol": {
+        target: "https://api.adsb.lol",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/adsb-dev\/adsblol/, ""),
+      },
+      "/adsb-dev/airplaneslive": {
+        target: "https://api.airplanes.live",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/adsb-dev\/airplaneslive/, ""),
+      },
+    },
+  },
   plugins: [
     viteStaticCopy({
       targets: ["ThirdParty", "Workers", "Assets", "Widgets"].map((dir) => ({

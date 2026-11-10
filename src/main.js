@@ -26,9 +26,12 @@ import "./style.css";
 import { AIRPORT, summarize } from "./osm.js";
 import { loadAirportData } from "./data.js";
 import { buildLayers, heightQueries, LAYER_DEFS } from "./layers.js";
+import { AdsbPoller, providerList } from "./adsb.js";
+import { TrafficLayer, altitudeColor } from "./traffic.js";
 
 const ION_TOKEN = import.meta.env.VITE_CESIUM_ION_TOKEN?.trim();
 const GOOGLE_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY?.trim();
+const ADSB_PROXY_URL = import.meta.env.VITE_ADSB_PROXY_URL?.trim();
 if (ION_TOKEN) Ion.defaultAccessToken = ION_TOKEN;
 if (GOOGLE_KEY) GoogleMaps.defaultApiKey = GOOGLE_KEY;
 
@@ -175,6 +178,7 @@ async function groundHeights(points) {
 const groundHeight = async (lon, lat) => (await groundHeights([[lon, lat]]))[0];
 
 async function lookAt(lon, lat, { range, pitch = -35, heading = 0, duration = 2.5 } = {}) {
+  viewer.trackedEntity = undefined; // stop following an aircraft
   const h = await groundHeight(lon, lat);
   viewer.camera.flyToBoundingSphere(new BoundingSphere(Cartesian3.fromDegrees(lon, lat, h), 20), {
     offset: new HeadingPitchRange(CesiumMath.toRadians(heading), CesiumMath.toRadians(pitch), range),
@@ -184,6 +188,7 @@ async function lookAt(lon, lat, { range, pitch = -35, heading = 0, duration = 2.
 
 /** Fly to a point on a 3° glide path, 3 km before the runway threshold, looking down the runway. */
 async function approachView(end) {
+  viewer.trackedEntity = undefined;
   const [lon, lat] = end.position;
   const distance = 3000;
   const rad = CesiumMath.toRadians(end.heading);
@@ -371,6 +376,87 @@ async function loadData({ live = false } = {}) {
     status(`Could not load airport data: ${err.message.split("\n")[0]}`);
   }
 }
+
+// ---------------------------------------------------------------------------
+// Live traffic (ADS-B)
+
+const GEOID_HEIGHT = 38; // approx. geoid separation at Gardermoen, metres
+const flatGround = () => viewer.terrainProvider instanceof EllipsoidTerrainProvider && !photorealTileset?.show;
+const traffic = new TrafficLayer(viewer, {
+  geoidHeight: GEOID_HEIGHT,
+  // On the flat globe the airport is drawn at height 0, so shift real altitudes down by its elevation.
+  heightOffset: () => (flatGround() ? AIRPORT.elevationMsl + GEOID_HEIGHT : 0),
+  clampToTerrain: () => !flatGround(),
+});
+
+const trafficStatus = $("#traffic-status");
+const trafficList = $("#traffic-list");
+let lastUpdate = 0;
+let lastProvider = "";
+
+function renderTrafficList() {
+  const items = traffic.nearest(AIRPORT.lon, AIRPORT.lat, 8);
+  trafficList.innerHTML = "";
+  for (const { ac, entity, distanceKm } of items) {
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.title = "Follow this aircraft";
+    const alt = ac.onGround ? "GND" : `${Math.round(ac.altBaroFt ?? ac.altGeomFt ?? 0).toLocaleString("en-US")} ft`;
+    btn.innerHTML = `<span class="dot"></span><span class="name"></span><span class="meta"></span>`;
+    btn.querySelector(".dot").style.background = altitudeColor(ac).toCssColorString();
+    btn.querySelector(".name").textContent = ac.callsign || ac.registration || ac.hex.toUpperCase();
+    btn.querySelector(".meta").textContent = `${alt} · ${distanceKm.toFixed(1)} km`;
+    btn.addEventListener("click", () => {
+      viewer.selectedEntity = entity;
+      viewer.trackedEntity = entity;
+    });
+    li.appendChild(btn);
+    trafficList.appendChild(li);
+  }
+}
+
+function renderTrafficStatus() {
+  if (!lastUpdate) return;
+  const age = Math.round((Date.now() - lastUpdate) / 1000);
+  trafficStatus.classList.remove("error");
+  trafficStatus.textContent = `${traffic.count} aircraft within 40 NM · ${lastProvider} · updated ${age} s ago`;
+}
+
+const poller = new AdsbPoller({
+  providers: providerList({ proxyUrl: ADSB_PROXY_URL, dev: import.meta.env.DEV }),
+  center: { lat: AIRPORT.lat, lon: AIRPORT.lon },
+  radiusNm: 40,
+  intervalMs: 5000,
+  onData: (list, provider) => {
+    traffic.update(list);
+    lastUpdate = Date.now();
+    lastProvider = provider;
+    renderTrafficStatus();
+    renderTrafficList();
+  },
+  onError: (message) => {
+    console.warn("ADS-B:", message);
+    if (lastUpdate && Date.now() - lastUpdate < 30_000) return; // brief hiccup: keep showing the last data
+    trafficStatus.classList.add("error");
+    trafficStatus.textContent = ADSB_PROXY_URL
+      ? "Live traffic unavailable right now. Retrying …"
+      : "Live traffic unavailable: the ADS-B services refused the browser request. Set up the ADS-B proxy (see README). Retrying …";
+  },
+});
+setInterval(renderTrafficStatus, 1000);
+
+const trafficToggles = $("#traffic-toggles");
+addToggle(trafficToggles, "Show aircraft", true, (on) => {
+  traffic.show = on;
+  if (on) poller.start();
+  else {
+    poller.stop();
+    viewer.trackedEntity = undefined;
+  }
+});
+addToggle(trafficToggles, "Trails", true, (on) => (traffic.showTrails = on));
+poller.start();
 
 $("#reload").addEventListener("click", () => loadData({ live: true }));
 

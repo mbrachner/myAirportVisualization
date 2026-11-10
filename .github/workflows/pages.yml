@@ -46,6 +46,8 @@ jobs:
         env:
           VITE_CESIUM_ION_TOKEN: ${{ secrets.CESIUM_ION_TOKEN }}
           VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+          # Not a secret: a repository *variable* (Settings → Secrets and variables → Actions → Variables).
+          VITE_ADSB_PROXY_URL: ${{ vars.ADSB_PROXY_URL }}
 
       - uses: actions/configure-pages@v5
 
