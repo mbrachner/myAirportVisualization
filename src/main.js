@@ -418,6 +418,24 @@ $("#arrival-pause").addEventListener("click", (e) => {
   e.currentTarget.textContent = arrival.playing ? "Pause" : "Play";
 });
 $("#arrival-follow").addEventListener("click", () => arrival.follow());
+
+// Planned-route visibility, remembered in this browser.
+const ROUTE_PREF = "arrival-show-route";
+const routeToggle = $("#arrival-show-route");
+try {
+  routeToggle.checked = localStorage.getItem(ROUTE_PREF) !== "0";
+} catch {
+  // Storage blocked: keep the default (shown).
+}
+arrival.showRoute = routeToggle.checked;
+routeToggle.addEventListener("change", () => {
+  arrival.showRoute = routeToggle.checked;
+  try {
+    localStorage.setItem(ROUTE_PREF, routeToggle.checked ? "1" : "0");
+  } catch {
+    // Not critical.
+  }
+});
 $("#arrival-speed").addEventListener("change", (e) => (arrival.speed = Number(e.currentTarget.value)));
 
 $("#reload").addEventListener("click", () => loadData({ live: true }));

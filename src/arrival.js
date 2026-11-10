@@ -45,6 +45,7 @@ export class ArrivalDemo {
     this.playing = false;
     this.onPhase = undefined;
     this.lastPhaseText = "";
+    this._showRoute = true;
 
     viewer.scene.preRender.addEventListener(() => this.tick());
   }
@@ -76,6 +77,16 @@ export class ArrivalDemo {
 
   set show(on) {
     this.source.show = on;
+  }
+
+  /** Show or hide the dashed planned route (kept across re-plans). */
+  set showRoute(on) {
+    this._showRoute = on;
+    if (this.routeEntity) this.routeEntity.show = on;
+  }
+
+  get showRoute() {
+    return this._showRoute;
   }
 
   tick() {
@@ -149,8 +160,9 @@ export class ArrivalDemo {
   createEntities() {
     const positions = this.profile.filter((_, i) => i % 4 === 0 || i === this.profile.length - 1);
     // Planned route: the glide path in the air and the taxi route on the ground.
-    this.source.entities.add({
+    this.routeEntity = this.source.entities.add({
       name: "Planned route",
+      show: this._showRoute,
       polyline: {
         positions: positions.map((p) => Cartesian3.fromDegrees(p.lonLat[0], p.lonLat[1], p.ground + p.agl + 0.5)),
         width: 2,
