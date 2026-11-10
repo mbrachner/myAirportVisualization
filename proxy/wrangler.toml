@@ -1,7 +1,0 @@
-name = "adsb-proxy"
-main = "adsb-worker.js"
-compatibility_date = "2026-10-01"
-
-[vars]
-# Comma-separated list of sites allowed to use the proxy.
-ALLOWED_ORIGINS = "https://mbrachner.github.io,http://localhost:5173,http://localhost:4173"

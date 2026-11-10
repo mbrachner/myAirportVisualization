@@ -155,48 +155,6 @@ code {
   pointer-events: none;
 }
 
-.traffic-list {
-  list-style: none;
-  margin: 6px 0 0;
-  padding: 0;
-  display: grid;
-  gap: 2px;
-}
-
-.traffic-list button {
-  all: unset;
-  box-sizing: border-box;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 10px 1fr auto;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 6px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-variant-numeric: tabular-nums;
-}
-
-.traffic-list button:hover,
-.traffic-list button:focus-visible {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.traffic-list .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.traffic-list .meta {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-#traffic-status.error {
-  color: #ffb4a8;
-}
-
 @media (max-width: 600px) {
   #panel {
     width: calc(100% - 20px);
