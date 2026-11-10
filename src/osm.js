@@ -47,6 +47,7 @@ export async function fetchOverpass({
   headers = {},
   retries = 0,
   retryDelayMs = 30_000,
+  timeoutMs = 120_000,
   log = () => {},
 } = {}) {
   const query = buildOverpassQuery(bbox);
@@ -56,9 +57,14 @@ export async function fetchOverpass({
     const busy = [];
     let wait = 0;
     for (const url of pending) {
+      // A server that accepts the request but never answers must not block the others.
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
       try {
+        log(`Querying ${url} ...`);
         const res = await fetchImpl(url, {
           method: "POST",
+          signal: controller.signal,
           headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json", ...headers },
           body: "data=" + encodeURIComponent(query),
         });
@@ -73,7 +79,11 @@ export async function fetchOverpass({
         if (!Array.isArray(json.elements)) throw new Error("unexpected response");
         return json;
       } catch (err) {
-        errors.push(`${url}: ${err.message}`);
+        const message = err.name === "AbortError" ? `no answer within ${Math.round(timeoutMs / 1000)} s` : err.message;
+        log(`  failed: ${message}`);
+        errors.push(`${url}: ${message}`);
+      } finally {
+        clearTimeout(timer);
       }
     }
     pending = busy;

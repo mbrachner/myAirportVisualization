@@ -15,7 +15,9 @@ const headers = {
   "User-Agent": process.env.OSM_USER_AGENT || "oslo-airport-3d/0.1 (CesiumJS airport visualization; OSM snapshot script)",
 };
 if (process.env.OSM_REFERER) headers.Referer = process.env.OSM_REFERER;
-const json = await fetchOverpass({ headers, retries: 2, log: console.log });
+// Three servers x 100 s worst case, plus one retry round for busy ones, stays under the
+// workflow's step timeout.
+const json = await fetchOverpass({ headers, retries: 1, timeoutMs: 100_000, log: console.log });
 const counts = summarize(parseOverpass(json));
 await mkdir(new URL(".", out), { recursive: true });
 await writeFile(out, JSON.stringify({ fetched: new Date().toISOString(), ...json }));

@@ -154,3 +154,18 @@ test("fetchOverpass reports every failure", async () => {
     /All Overpass endpoints failed:\nhttps:\/\/a\/api: HTTP 429\nhttps:\/\/a\/api: HTTP 429/,
   );
 });
+
+test("fetchOverpass gives up on a server that never answers", async () => {
+  const calls = [];
+  const json = await fetchOverpass({
+    endpoints: ["https://slow/api", "https://ok/api"],
+    timeoutMs: 20,
+    fetchImpl: (url, init) => {
+      calls.push(url);
+      if (url === "https://ok/api") return Promise.resolve(response(200));
+      return new Promise((_, reject) => init.signal.addEventListener("abort", () => reject(Object.assign(new Error("aborted"), { name: "AbortError" }))));
+    },
+  });
+  assert.deepEqual(json, { elements: [] });
+  assert.deepEqual(calls, ["https://slow/api", "https://ok/api"]);
+});
