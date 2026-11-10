@@ -30,23 +30,57 @@ export function buildOverpassQuery(bbox = AIRPORT.bbox) {
 out geom;`;
 }
 
-/** Fetch raw Overpass JSON, trying each endpoint in turn. */
-export async function fetchOverpass({ bbox = AIRPORT.bbox, endpoints = OVERPASS_ENDPOINTS, fetchImpl = fetch } = {}) {
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Fetch raw Overpass JSON, trying each endpoint in turn.
+ *
+ * Overpass servers require clients to identify themselves: outside a browser, pass a descriptive
+ * `headers["User-Agent"]` (library defaults are answered with HTTP 406). Browsers send their own
+ * User-Agent and Referer, which is enough. `retries` extra rounds are made only for busy servers
+ * (429/503/504), waiting `Retry-After` or `retryDelayMs`; a 406 is never retried.
+ */
+export async function fetchOverpass({
+  bbox = AIRPORT.bbox,
+  endpoints = OVERPASS_ENDPOINTS,
+  fetchImpl = (...args) => fetch(...args),
+  headers = {},
+  retries = 0,
+  retryDelayMs = 30_000,
+  log = () => {},
+} = {}) {
   const query = buildOverpassQuery(bbox);
   const errors = [];
-  for (const url of endpoints) {
-    try {
-      const res = await fetchImpl(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "data=" + encodeURIComponent(query),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
-      if (!Array.isArray(json.elements)) throw new Error("unexpected response");
-      return json;
-    } catch (err) {
-      errors.push(`${url}: ${err.message}`);
+  let pending = [...endpoints];
+  for (let round = 0; round <= retries && pending.length; round++) {
+    const busy = [];
+    let wait = 0;
+    for (const url of pending) {
+      try {
+        const res = await fetchImpl(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json", ...headers },
+          body: "data=" + encodeURIComponent(query),
+        });
+        if (!res.ok) {
+          if ([429, 503, 504].includes(res.status)) {
+            busy.push(url);
+            wait = Math.max(wait, (parseInt(res.headers?.get?.("Retry-After"), 10) || 0) * 1000);
+          }
+          throw new Error(`HTTP ${res.status}${res.status === 406 ? " (request refused: check the User-Agent)" : ""}`);
+        }
+        const json = await res.json();
+        if (!Array.isArray(json.elements)) throw new Error("unexpected response");
+        return json;
+      } catch (err) {
+        errors.push(`${url}: ${err.message}`);
+      }
+    }
+    pending = busy;
+    if (pending.length && round < retries) {
+      const ms = Math.min(Math.max(wait, retryDelayMs), 120_000);
+      log(`Overpass busy, retrying ${pending.length} server(s) in ${Math.round(ms / 1000)} s ...`);
+      await sleep(ms);
     }
   }
   throw new Error("All Overpass endpoints failed:\n" + errors.join("\n"));

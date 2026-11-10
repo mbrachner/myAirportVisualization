@@ -30,14 +30,17 @@ function writeCache(json) {
  */
 export async function loadAirportData({ live = false } = {}) {
   if (!live) {
-    try {
-      const res = await fetch(SNAPSHOT_URL);
-      if (res.ok && res.headers.get("content-type")?.includes("json")) {
-        const json = await res.json();
-        return { layers: parseOverpass(json), source: `snapshot (${json.fetched?.slice(0, 10) ?? "unknown date"})` };
+    // __HAS_OSM_SNAPSHOT__ is set at build time (vite.config.js), so we don't request a missing file.
+    if (__HAS_OSM_SNAPSHOT__) {
+      try {
+        const res = await fetch(SNAPSHOT_URL);
+        if (res.ok && res.headers.get("content-type")?.includes("json")) {
+          const json = await res.json();
+          return { layers: parseOverpass(json), source: `snapshot (${json.fetched?.slice(0, 10) ?? "unknown date"})` };
+        }
+      } catch {
+        // Snapshot unreadable; fall through.
       }
-    } catch {
-      // No snapshot bundled; fall through.
     }
     const cached = readCache();
     if (cached) return { layers: parseOverpass(cached), source: "browser cache" };

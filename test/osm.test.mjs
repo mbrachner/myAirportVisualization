@@ -9,6 +9,7 @@ import {
   parseOverpass,
   buildOverpassQuery,
   summarize,
+  fetchOverpass,
 } from "../src/osm.js";
 
 test("parseLength handles metres, units and feet", () => {
@@ -105,4 +106,51 @@ test("parseOverpass builds features for every layer type", () => {
   const hangar = layers.building.find((b) => b.kind === "hangar");
   assert.equal(hangar.geometry.holes.length, 1);
   assert.equal(hangar.height, 18);
+});
+
+const response = (status, body = { elements: [] }, headers = {}) => ({
+  ok: status === 200,
+  status,
+  headers: { get: (k) => headers[k] ?? null },
+  json: async () => body,
+});
+
+test("fetchOverpass sends identifying headers and falls back to the next server", async () => {
+  const seen = [];
+  const json = await fetchOverpass({
+    endpoints: ["https://a/api", "https://b/api"],
+    headers: { "User-Agent": "test-app/1.0" },
+    fetchImpl: async (url, init) => {
+      seen.push([url, init.headers["User-Agent"], init.headers.Accept]);
+      return url === "https://a/api" ? response(406) : response(200, { elements: [{ id: 1 }] });
+    },
+  });
+  assert.equal(json.elements.length, 1);
+  assert.deepEqual(seen, [["https://a/api", "test-app/1.0", "application/json"], ["https://b/api", "test-app/1.0", "application/json"]]);
+});
+
+test("fetchOverpass retries busy servers but never a 406", async () => {
+  const calls = [];
+  let attemptsB = 0;
+  const json = await fetchOverpass({
+    endpoints: ["https://a/api", "https://b/api"],
+    retries: 2,
+    retryDelayMs: 1,
+    fetchImpl: async (url) => {
+      calls.push(url);
+      if (url === "https://a/api") return response(406);
+      attemptsB++;
+      return attemptsB < 3 ? response(429) : response(200);
+    },
+  });
+  assert.deepEqual(json, { elements: [] });
+  assert.equal(calls.filter((u) => u === "https://a/api").length, 1, "406 is not retried");
+  assert.equal(attemptsB, 3);
+});
+
+test("fetchOverpass reports every failure", async () => {
+  await assert.rejects(
+    fetchOverpass({ endpoints: ["https://a/api"], retries: 1, retryDelayMs: 1, fetchImpl: async () => response(429) }),
+    /All Overpass endpoints failed:\nhttps:\/\/a\/api: HTTP 429\nhttps:\/\/a\/api: HTTP 429/,
+  );
 });

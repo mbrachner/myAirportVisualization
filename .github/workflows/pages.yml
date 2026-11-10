@@ -31,11 +31,39 @@ jobs:
       - run: npm test
 
       # Bundle a snapshot of the Gardermoen OpenStreetMap data so the site loads instantly.
-      # If Overpass is busy, the site still works and fetches the data live in the browser.
+      # Start from the last good snapshot, so a busy Overpass server doesn't leave the site without
+      # one. If there is no snapshot at all, the site fetches the data live in the browser.
+      - name: Restore last OpenStreetMap snapshot
+        uses: actions/cache/restore@v4
+        with:
+          path: public/data/engm-osm.json
+          key: osm-snapshot-${{ github.run_id }}
+          restore-keys: osm-snapshot-
+
       - name: Fetch OpenStreetMap snapshot
+        id: fetch_osm
         run: npm run fetch-osm
         continue-on-error: true
-        timeout-minutes: 5
+        timeout-minutes: 6
+        env:
+          OSM_REFERER: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+
+      - name: Save OpenStreetMap snapshot
+        if: steps.fetch_osm.outcome == 'success'
+        uses: actions/cache/save@v4
+        with:
+          path: public/data/engm-osm.json
+          key: osm-snapshot-${{ github.run_id }}
+
+      - name: Report snapshot status
+        run: |
+          if [ "${{ steps.fetch_osm.outcome }}" = "success" ]; then
+            echo "::notice::Bundled a fresh OpenStreetMap snapshot."
+          elif [ -f public/data/engm-osm.json ]; then
+            echo "::warning::Overpass unavailable; bundling the previous OpenStreetMap snapshot."
+          else
+            echo "::warning::Overpass unavailable and no previous snapshot; the site will load OSM data live."
+          fi
 
       # Keys come from repository secrets (Settings → Secrets and variables → Actions).
       # They end up in the public JavaScript bundle, so restrict them to this site's URL

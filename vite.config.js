@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { defineConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
@@ -8,6 +9,8 @@ const cesiumBaseUrl = "cesiumStatic";
 export default defineConfig({
   define: {
     CESIUM_BASE_URL: JSON.stringify(`./${cesiumBaseUrl}`),
+    // Whether `npm run fetch-osm` produced a snapshot to bundle (see src/data.js).
+    __HAS_OSM_SNAPSHOT__: JSON.stringify(existsSync("public/data/engm-osm.json")),
   },
   base: "./",
   // Cesium is one large library; splitting it brings little benefit here.
