@@ -1,0 +1,64 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main, claude/magical-gauss-vjcu2e]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; don't cancel a deployment that is already running.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm test
+
+      # Bundle a snapshot of the Gardermoen OpenStreetMap data so the site loads instantly.
+      # If Overpass is busy, the site still works and fetches the data live in the browser.
+      - name: Fetch OpenStreetMap snapshot
+        run: npm run fetch-osm
+        continue-on-error: true
+        timeout-minutes: 5
+
+      # Keys come from repository secrets (Settings → Secrets and variables → Actions).
+      # They end up in the public JavaScript bundle, so restrict them to this site's URL
+      # in the Cesium ion and Google Cloud consoles. Missing secrets are fine: the app
+      # then uses open map tiles and flat terrain.
+      - name: Build
+        run: npm run build
+        env:
+          VITE_CESIUM_ION_TOKEN: ${{ secrets.CESIUM_ION_TOKEN }}
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

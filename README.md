@@ -68,6 +68,37 @@ npm run build
 
 `dist/` is a static site that can be hosted anywhere (GitHub Pages, Netlify, S3, …).
 
+## Deploying to GitHub Pages
+
+`.github/workflows/pages.yml` builds the site, bundles a fresh OpenStreetMap snapshot and
+publishes it on every push to `main` (and to the development branch), or manually from the
+Actions tab.
+
+One-time setup:
+
+1. **Settings → Pages → Build and deployment → Source:** choose **GitHub Actions**.
+2. Deployments are only allowed from `main` by default. Either merge into `main`, or add your
+   branch under **Settings → Environments → github-pages → Deployment branches and tags**.
+3. Optional keys: **Settings → Secrets and variables → Actions → New repository secret**:
+   - `CESIUM_ION_TOKEN`
+   - `GOOGLE_MAPS_API_KEY`
+4. Re-run the workflow (**Actions → Deploy to GitHub Pages → Run workflow**).
+
+The site is published at `https://<user>.github.io/<repo>/`.
+
+### Keeping the keys safe
+
+GitHub Pages is static hosting, so the keys are compiled into the public JavaScript. Secrets only
+keep them out of the repository. Protect them where they are issued:
+
+- **Cesium ion:** create a dedicated token for this site, grant only the assets used
+  (World Terrain, Bing imagery, OSM Buildings) and set **Allowed URLs** to your Pages domain.
+- **Google:** restrict the key to **HTTP referrers** (`https://<user>.github.io/*`), to the
+  **Map Tiles API** only, and set a daily quota plus a billing budget alert.
+
+Credentials that cannot be restricted to a website (paid APIs, flight-data logins) must never be
+put in `VITE_*` variables; serve them through a small proxy such as a Cloudflare Worker instead.
+
 ## Ideas for next steps
 
 - Live aircraft from ADS-B (OpenSky Network, adsb.lol) as 3D models moving on the field
