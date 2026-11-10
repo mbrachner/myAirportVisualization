@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oslo Airport 3D</title>
+  </head>
+  <body>
+    <div id="cesiumContainer"></div>
+
+    <aside id="panel">
+      <header>
+        <div>
+          <h1>Oslo Airport Gardermoen</h1>
+          <p class="sub">OSL · ENGM · 208 m AMSL</p>
+        </div>
+        <button id="panel-toggle" type="button" aria-label="Collapse panel">☰</button>
+      </header>
+
+      <div class="body">
+        <section>
+          <h2>Views</h2>
+          <div id="views" class="buttons"></div>
+        </section>
+
+        <section>
+          <h2>Find gate or stand</h2>
+          <input id="search" list="places" disabled placeholder="Loading …" autocomplete="off" />
+          <datalist id="places"></datalist>
+        </section>
+
+        <section>
+          <h2>Layers</h2>
+          <div id="layers"></div>
+        </section>
+
+        <section>
+          <h2>3D tiles</h2>
+          <div id="tiles"></div>
+        </section>
+
+        <section>
+          <button id="reload" type="button" class="secondary">Reload live OSM data</button>
+        </section>
+      </div>
+    </aside>
+
+    <div id="status">Starting …</div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
