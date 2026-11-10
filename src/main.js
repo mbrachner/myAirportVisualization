@@ -26,6 +26,8 @@ import "./style.css";
 import { AIRPORT, summarize } from "./osm.js";
 import { loadAirportData } from "./data.js";
 import { buildLayers, heightQueries, LAYER_DEFS } from "./layers.js";
+import { planArrival, buildProfile } from "./routing.js";
+import { ArrivalDemo } from "./arrival.js";
 
 const ION_TOKEN = import.meta.env.VITE_CESIUM_ION_TOKEN?.trim();
 const GOOGLE_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY?.trim();
@@ -175,6 +177,7 @@ async function groundHeights(points) {
 const groundHeight = async (lon, lat) => (await groundHeights([[lon, lat]]))[0];
 
 async function lookAt(lon, lat, { range, pitch = -35, heading = 0, duration = 2.5 } = {}) {
+  viewer.trackedEntity = undefined; // stop following the aircraft
   const h = await groundHeight(lon, lat);
   viewer.camera.flyToBoundingSphere(new BoundingSphere(Cartesian3.fromDegrees(lon, lat, h), 20), {
     offset: new HeadingPitchRange(CesiumMath.toRadians(heading), CesiumMath.toRadians(pitch), range),
@@ -184,6 +187,7 @@ async function lookAt(lon, lat, { range, pitch = -35, heading = 0, duration = 2.
 
 /** Fly to a point on a 3° glide path, 3 km before the runway threshold, looking down the runway. */
 async function approachView(end) {
+  viewer.trackedEntity = undefined;
   const [lon, lat] = end.position;
   const distance = 3000;
   const rad = CesiumMath.toRadians(end.heading);
@@ -327,7 +331,7 @@ async function rebuild() {
 let rebuildTimer;
 function scheduleRebuild() {
   clearTimeout(rebuildTimer);
-  rebuildTimer = setTimeout(rebuild, 250);
+  rebuildTimer = setTimeout(() => rebuild().then(setupArrival), 250);
 }
 viewer.scene.terrainProviderChanged.addEventListener(scheduleRebuild);
 
@@ -337,6 +341,7 @@ async function loadData({ live = false } = {}) {
     const { layers, source } = await loadAirportData({ live });
     airportLayers = layers;
     const index = await rebuild();
+    await setupArrival();
     const counts = summarize(layers);
 
     const layersBox = $("#layers");
@@ -372,10 +377,56 @@ async function loadData({ live = false } = {}) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Simulated arrival: a Norwegian 737-800 landing on 01L and taxiing to gate A12
+
+const ARRIVAL = { runway: "01L", gate: "A12" };
+const arrival = new ArrivalDemo(viewer, { callsign: "NAX741", type: "B738", operator: "Norwegian", fieldElevationMsl: AIRPORT.elevationMsl });
+const arrivalStatus = $("#arrival-status");
+arrival.onPhase = (text) => (arrivalStatus.textContent = text);
+
+/** (Re)plan the arrival for the current data and ground surface, keeping the playback position. */
+async function setupArrival() {
+  if (!airportLayers) return;
+  try {
+    const plan = planArrival(airportLayers, ARRIVAL);
+    const ground = await groundHeights(plan.vertices.map((v) => v.lonLat));
+    const profile = buildProfile(plan, ground);
+    const time = arrival.time;
+    const wasPlaying = arrival.playing || !arrival.profile;
+    arrival.load(plan, profile);
+    arrival.time = Math.min(time, profile.at(-1).t);
+    if (wasPlaying) arrival.play();
+    const route = plan.taxiways.length ? `via ${plan.taxiways.join(", ")}` : "direct";
+    $("#arrival-route").textContent = `Runway ${plan.runway} → gate ${plan.gate} ${route} · ${Math.round(profile.at(-1).t / 60)} min`;
+    $("#arrival-warnings").textContent = plan.warnings.join(" ");
+    $("#arrival-controls").hidden = false;
+  } catch (err) {
+    console.warn(err);
+    arrival.source.entities.removeAll();
+    arrival.profile = undefined;
+    $("#arrival-controls").hidden = true;
+    $("#arrival-route").textContent = "";
+    arrivalStatus.textContent = `Arrival demo unavailable: ${err.message}`;
+  }
+}
+
+$("#arrival-restart").addEventListener("click", () => arrival.restart());
+$("#arrival-pause").addEventListener("click", (e) => {
+  if (arrival.playing) arrival.pause();
+  else arrival.play();
+  e.currentTarget.textContent = arrival.playing ? "Pause" : "Play";
+});
+$("#arrival-follow").addEventListener("click", () => arrival.follow());
+$("#arrival-speed").addEventListener("change", (e) => (arrival.speed = Number(e.currentTarget.value)));
+
 $("#reload").addEventListener("click", () => loadData({ live: true }));
 
 // Expose the viewer for debugging and benchmarks: open the page with ?debug
-if (new URLSearchParams(location.search).has("debug")) window.__viewer = viewer;
+if (new URLSearchParams(location.search).has("debug")) {
+  window.__viewer = viewer;
+  window.__arrival = arrival;
+}
 
 await loadData();
 overview(3);

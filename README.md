@@ -8,6 +8,9 @@ Interactive 3D visualization of **Oslo Airport Gardermoen (OSL / ENGM)** built w
 - Click any feature to see its OSM tags and a link to the object on openstreetmap.org
 - Camera views: overview, terminal and a 3° glide-path approach to every runway end
 - Search for gates and stands (e.g. `Gate D4`, `Stand 40`)
+- **Arrival demo:** a simulated Norwegian Boeing 737-800 (NAX741) flies a 3° approach to runway
+  01L, lands, brakes, leaves the runway at the quickest exit and taxis along the OSM taxiway
+  network to gate A12, then loops. Pause, restart, follow and 1×/3×/10× speed in the side panel
 - Base maps: Esri World Imagery, Kartverket topo/grey, OpenStreetMap; with keys also Bing aerial,
   Cesium World Terrain, Cesium OSM Buildings and Google Photorealistic 3D Tiles
 
@@ -49,6 +52,23 @@ npm run fetch-osm
 
 The **Reload live OSM data** button always fetches fresh data from Overpass.
 
+## Arrival demo
+
+The route is computed from the map data, so it changes with the OSM snapshot:
+
+1. Runway end `01L` and gate `A12` (or a stand with the same number) are looked up by their `ref` tags.
+2. The approach starts 9 km out on the extended centre line, 3° glide path, crossing the threshold
+   at 15 m and touching down 400 m in at about 135 kt.
+3. The runway exit is chosen by estimated time (rollout plus taxi), at least 1.1 km after touchdown.
+4. The taxi route is the shortest path over taxiways and taxilanes (where OSM ways share nodes);
+   the stand's lead-in line is joined to the nearest taxiway if the map leaves a gap.
+5. Speeds: 145 kt on final, braking up to 2.2 m/s², 15 kt taxi, slower in turns, stopping with the
+   nose at the stand.
+
+If the runway, gate or a taxi route is missing from the data, the panel says so (and falls back to a
+direct path where it can). Change `ARRIVAL` in `src/main.js` for another runway or gate. This is a
+simulation, not live traffic.
+
 ## Project layout
 
 | Path | Purpose |
@@ -57,8 +77,11 @@ The **Reload live OSM data** button always fetches fresh data from Overpass.
 | `src/data.js` | Loading order: snapshot → browser cache → live Overpass |
 | `src/layers.js` | OSM features → Cesium entities, one data source per layer |
 | `src/main.js` | Viewer, base maps, 3D tiles, camera views and UI wiring |
+| `src/routing.js` | Arrival planning: runway/gate lookup, taxi graph, shortest path, speed profile |
+| `src/arrival.js` | Animates the simulated arrival in Cesium |
+| `src/aircraftModel.js` | Generates the low-poly 737 glTF model (with a two-colour scheme) in code |
 | `scripts/fetch-osm.mjs` | Saves an OSM snapshot to `public/data/` |
-| `test/` | Unit tests for the parsing logic (`npm test`) |
+| `test/` | Unit tests for OSM parsing, arrival planning and the model (`npm test`) |
 
 ## Building
 

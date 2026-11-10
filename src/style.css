@@ -17,6 +17,10 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 #cesiumContainer {
   position: absolute;
   inset: 0;
@@ -153,6 +157,42 @@ code {
   font-size: 12px;
   z-index: 2;
   pointer-events: none;
+}
+
+.arrival-status {
+  margin: 0 0 4px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+#arrival-controls {
+  margin-top: 8px;
+  align-items: center;
+}
+
+.speed {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+}
+
+.speed select {
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--panel-fg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font: inherit;
+  padding: 3px 4px;
+}
+
+.hint.warning:not(:empty) {
+  margin-top: 6px;
+  color: #ffd27a;
+}
+
+#panel p.hint:empty {
+  display: none;
 }
 
 @media (max-width: 600px) {

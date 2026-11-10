@@ -24,6 +24,25 @@
         </section>
 
         <section>
+          <h2>Arrival demo</h2>
+          <p id="arrival-status" class="arrival-status">Preparing …</p>
+          <p id="arrival-route" class="hint"></p>
+          <div id="arrival-controls" class="buttons" hidden>
+            <button id="arrival-pause" type="button">Pause</button>
+            <button id="arrival-restart" type="button">Restart</button>
+            <button id="arrival-follow" type="button">Follow</button>
+            <label class="speed" for="arrival-speed">Speed
+              <select id="arrival-speed">
+                <option value="1">1×</option>
+                <option value="3">3×</option>
+                <option value="10">10×</option>
+              </select>
+            </label>
+          </div>
+          <p id="arrival-warnings" class="hint warning"></p>
+        </section>
+
+        <section>
           <h2>Find gate or stand</h2>
           <input id="search" list="places" disabled placeholder="Loading …" autocomplete="off" />
           <datalist id="places"></datalist>
