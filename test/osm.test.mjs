@@ -10,6 +10,7 @@ import {
   buildOverpassQuery,
   summarize,
   fetchOverpass,
+  findByTag,
 } from "../src/osm.js";
 
 test("parseLength handles metres, units and feet", () => {
@@ -168,4 +169,23 @@ test("fetchOverpass gives up on a server that never answers", async () => {
   });
   assert.deepEqual(json, { elements: [] });
   assert.deepEqual(calls, ["https://slow/api", "https://ok/api"]);
+});
+
+test("findByTag finds the control tower by its building number, mapped as outline or point", () => {
+  const sq = [[11.09, 60.19], [11.0901, 60.19], [11.0901, 60.1901], [11.09, 60.1901], [11.09, 60.19]].map(([lon, lat]) => ({ lon, lat }));
+  const asWay = parseOverpass({ elements: [{ type: "way", id: 1, tags: { building: "yes", man_made: "tower", "ref:bygningsnr": "15344334", height: "61" }, geometry: sq }] });
+  const tower = findByTag(asWay, "ref:bygningsnr", "15344334");
+  assert.equal(tower.layer, "building");
+  assert.equal(tower.kind, "tower");
+  assert.equal(tower.height, 61);
+  assert.ok(tower.centroid);
+
+  const asNode = parseOverpass({ elements: [{ type: "node", id: 2, lon: 11.09, lat: 60.19, tags: { man_made: "tower", "ref:bygningsnr": "15344334" } }] });
+  const point = findByTag(asNode, "ref:bygningsnr", "15344334");
+  assert.equal(point.layer, "poi", "point towers are not drawn as buildings");
+  assert.equal(point.height, 40, "towers without height get the tower default");
+  assert.deepEqual(point.centroid, [11.09, 60.19]);
+  assert.equal(asNode.building.length, 0);
+
+  assert.equal(findByTag(asWay, "ref:bygningsnr", "999"), undefined);
 });

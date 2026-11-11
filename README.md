@@ -7,6 +7,9 @@ Interactive 3D visualization of **Oslo Airport Gardermoen (OSL / ENGM)** built w
 - Extruded buildings (terminal, hangars, tower) with heights from OSM tags
 - Click any feature to see its OSM tags and a link to the object on openstreetmap.org
 - Camera views: overview, terminal and a 3° glide-path approach to every runway end
+- **Tower view** from the control tower cab (OSM building `ref:bygningsnr=15344334`): drag to look
+  around, scroll to zoom, optionally keep the arriving aircraft in view; Esc or Exit to leave. The eye
+  is 2 m below the tower's mapped height (40 m is assumed if the map has no height)
 - Search for gates and stands (e.g. `Gate D4`, `Stand 40`)
 - **Arrival demo:** a simulated Norwegian Boeing 737-800 (NAX741) flies a 3° approach to runway
   01L, lands, brakes, leaves the runway at the quickest exit and taxis along the OSM taxiway
@@ -83,6 +86,7 @@ simulation, not live traffic.
 | `src/layers.js` | OSM features → Cesium entities, one data source per layer |
 | `src/main.js` | Viewer, base maps, 3D tiles, camera views and UI wiring |
 | `src/routing.js` | Arrival planning: runway/gate lookup, taxi graph, shortest path, speed profile |
+| `src/towerView.js` | First-person tower-cab camera: look-around, zoom, tracking |
 | `src/arrival.js` | Animates the simulated arrival in Cesium |
 | `src/aircraftModel.js` | Generates the low-poly 737 glTF model (with a two-colour scheme) in code |
 | `scripts/fetch-osm.mjs` | Saves an OSM snapshot to `public/data/` |

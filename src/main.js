@@ -23,11 +23,12 @@ import {
 import "cesium/Build/Cesium/Widgets/widgets.css";
 import "./style.css";
 
-import { AIRPORT, summarize } from "./osm.js";
+import { AIRPORT, summarize, findByTag } from "./osm.js";
 import { loadAirportData } from "./data.js";
 import { buildLayers, heightQueries, LAYER_DEFS } from "./layers.js";
 import { planArrival, buildProfile } from "./routing.js";
 import { ArrivalDemo } from "./arrival.js";
+import { TowerView, headingPitchTo } from "./towerView.js";
 
 const ION_TOKEN = import.meta.env.VITE_CESIUM_ION_TOKEN?.trim();
 const GOOGLE_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY?.trim();
@@ -177,6 +178,7 @@ async function groundHeights(points) {
 const groundHeight = async (lon, lat) => (await groundHeights([[lon, lat]]))[0];
 
 async function lookAt(lon, lat, { range, pitch = -35, heading = 0, duration = 2.5 } = {}) {
+  towerView.exit();
   viewer.trackedEntity = undefined; // stop following the aircraft
   const h = await groundHeight(lon, lat);
   viewer.camera.flyToBoundingSphere(new BoundingSphere(Cartesian3.fromDegrees(lon, lat, h), 20), {
@@ -187,6 +189,7 @@ async function lookAt(lon, lat, { range, pitch = -35, heading = 0, duration = 2.
 
 /** Fly to a point on a 3° glide path, 3 km before the runway threshold, looking down the runway. */
 async function approachView(end) {
+  towerView.exit();
   viewer.trackedEntity = undefined;
   const [lon, lat] = end.position;
   const distance = 3000;
@@ -202,6 +205,68 @@ async function approachView(end) {
     duration: 3,
   });
 }
+
+// ---------------------------------------------------------------------------
+// Tower view
+
+// The control tower, identified by its Norwegian building register number.
+const TOWER = { key: "ref:bygningsnr", value: "15344334" };
+const CAB_BELOW_ROOF = 2; // eye height below the top of the tower, metres
+const towerView = new TowerView(viewer);
+let towerTarget; // [lon, lat] the tower initially looks at
+
+async function enterTower() {
+  const f = airportLayers && findByTag(airportLayers, TOWER.key, TOWER.value);
+  if (!f) return;
+  const [lon, lat] = f.centroid ?? f.geometry.coordinates;
+  // With photorealistic tiles the sample at the tower would hit its own roof: use the lowest
+  // ground in a ring around it instead.
+  const ring = photorealTileset?.show
+    ? [0, 90, 180, 270].map((deg) => {
+        const r = (deg * Math.PI) / 180;
+        return [lon + (80 * Math.sin(r)) / (111320 * Math.cos((lat * Math.PI) / 180)), lat + (80 * Math.cos(r)) / 111320];
+      })
+    : [[lon, lat]];
+  const ground = Math.min(...(await groundHeights(ring)));
+  const eye = Cartesian3.fromDegrees(lon, lat, ground + Math.max(f.height - CAB_BELOW_ROOF, 3));
+  const look = towerTarget ? headingPitchTo(eye, Cartesian3.fromDegrees(...towerTarget, ground)) : { heading: 0 };
+  towerView.enter(eye, { heading: look.heading, pitch: CesiumMath.toRadians(-6) });
+}
+
+function setupTowerButton(index) {
+  const f = airportLayers && findByTag(airportLayers, TOWER.key, TOWER.value);
+  const btn = addButton(viewsBox, "Tower", enterTower);
+  btn.dataset.dynamic = "";
+  if (!f) {
+    btn.disabled = true;
+    btn.title = `The tower (${TOWER.key} ${TOWER.value}) is not in the loaded map data.`;
+    return;
+  }
+  const tagged = f.tags.height !== undefined || f.tags["building:levels"] !== undefined;
+  btn.title = tagged
+    ? `View from the tower cab (${Math.round(f.height)} m)`
+    : `View from the tower cab (height not in the map data; assuming ${Math.round(f.height)} m)`;
+  // Look towards the middle of the runways by default.
+  const ends = index.runwayEnds.map((e) => e.position);
+  towerTarget = ends.length
+    ? [ends.reduce((a, p) => a + p[0], 0) / ends.length, ends.reduce((a, p) => a + p[1], 0) / ends.length]
+    : [AIRPORT.lon, AIRPORT.lat];
+}
+
+const towerBar = $("#tower-bar");
+const towerTrack = $("#tower-track");
+towerView.onChange = () => {
+  towerBar.hidden = !towerView.active;
+  towerTrack.checked = Boolean(towerView.target);
+};
+towerTrack.addEventListener("change", () => {
+  towerView.track(towerTrack.checked ? () => (arrival.profile ? arrival.position() : undefined) : undefined);
+});
+$("#tower-exit").addEventListener("click", () => towerView.exit());
+// Following an entity (e.g. double-clicking the aircraft) leaves the tower.
+viewer.trackedEntityChanged.addEventListener(() => {
+  if (viewer.trackedEntity) towerView.exit();
+});
 
 const overview = (duration = 2.5) => lookAt(AIRPORT.lon, AIRPORT.lat, { range: 9000, pitch: -50, heading: 20, duration });
 
@@ -363,6 +428,7 @@ async function loadData({ live = false } = {}) {
     for (const end of index.runwayEnds) {
       addButton(viewsBox, `Approach ${end.designator}`, () => approachView(end)).dataset.dynamic = "";
     }
+    setupTowerButton(index);
 
     places = index.places;
     $("#places").innerHTML = places.map((p) => `<option value="${p.label}"></option>`).join("");
@@ -417,7 +483,10 @@ $("#arrival-pause").addEventListener("click", (e) => {
   else arrival.play();
   e.currentTarget.textContent = arrival.playing ? "Pause" : "Play";
 });
-$("#arrival-follow").addEventListener("click", () => arrival.follow());
+$("#arrival-follow").addEventListener("click", () => {
+  towerView.exit();
+  arrival.follow();
+});
 
 // Planned-route visibility, remembered in this browser.
 const ROUTE_PREF = "arrival-show-route";

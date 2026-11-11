@@ -195,7 +195,52 @@ code {
   display: none;
 }
 
+.tower-bar {
+  position: absolute;
+  top: calc(10px + env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 14px;
+  max-width: calc(100% - 20px);
+  box-sizing: border-box;
+  padding: 7px 12px;
+  background: var(--panel-bg);
+  color: var(--panel-fg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 13px;
+  z-index: 3;
+}
+
+.tower-hint {
+  color: var(--muted);
+}
+
+.tower-bar button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font: inherit;
+  cursor: pointer;
+}
+
+#panel button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 @media (max-width: 600px) {
+  .tower-bar {
+    top: auto;
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+
   #panel {
     width: calc(100% - 20px);
     max-height: 55%;

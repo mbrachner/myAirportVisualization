@@ -26,6 +26,7 @@ export function buildOverpassQuery(bbox = AIRPORT.bbox) {
   nwr["aeroway"](${b});
   way["building"](${b});
   relation["building"](${b});
+  nwr["man_made"="tower"](${b});
 );
 out geom;`;
 }
@@ -121,7 +122,7 @@ export function buildingHeights(tags, kind) {
     height = levels * LEVEL_HEIGHT + (parseLength(tags["roof:height"]) ?? 0);
   }
   if (height === undefined) {
-    height = kind === "terminal" ? 22 : kind === "hangar" ? 18 : 9;
+    height = kind === "terminal" ? 22 : kind === "hangar" ? 18 : kind === "tower" ? 40 : 9;
   }
   let minHeight = parseLength(tags.min_height);
   const minLevel = parseFloat(tags["building:min_level"]);
@@ -200,6 +201,7 @@ export function classify(tags) {
   if (aeroway === "hangar" || tags.building === "hangar") return "building";
   if (aeroway === "tower" || aeroway === "control_tower") return "building";
   if (tags.building && tags.building !== "no") return "building";
+  if (tags.man_made === "tower") return "building";
   if (aeroway === "windsock") return "poi";
   return undefined;
 }
@@ -283,7 +285,15 @@ export function parseOverpass(json) {
 
     if (el.type === "node") {
       if (el.lon == null) continue;
-      layers[layer].push({ ...base, geometry: { type: "Point", coordinates: [el.lon, el.lat] } });
+      const point = { ...base, geometry: { type: "Point", coordinates: [el.lon, el.lat] } };
+      if (layer === "building") {
+        // A building mapped as a single node (e.g. a tower): keep it findable, but it has no
+        // outline to extrude, so it goes with the points of interest.
+        const kind = buildingKind(tags);
+        layers.poi.push({ ...point, layer: "poi", kind, centroid: point.geometry.coordinates, ...buildingHeights(tags, kind) });
+      } else {
+        layers[layer].push(point);
+      }
       continue;
     }
 
@@ -337,4 +347,13 @@ export function parseOverpass(json) {
 /** Feature counts per layer, for the status bar. */
 export function summarize(layers) {
   return Object.fromEntries(Object.entries(layers).map(([k, v]) => [k, v.length]));
+}
+
+/** First feature in any layer whose tag `key` equals `value` (e.g. "ref:bygningsnr"). */
+export function findByTag(layers, key, value) {
+  for (const list of Object.values(layers)) {
+    const hit = list.find((f) => String(f.tags?.[key] ?? "").trim() === String(value));
+    if (hit) return hit;
+  }
+  return undefined;
 }
