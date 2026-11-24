@@ -72,6 +72,7 @@ uniform float u_time;
 uniform float u_heightScale;
 uniform float u_side;
 uniform float u_sizeScale;
+uniform float u_glow;
 uniform vec3 u_center;
 
 out vec4 v_color;
@@ -99,25 +100,32 @@ void main() {
   float tail = 1.0 - trail / ${TRAIL.toFixed(1)};
   float alpha = flight > 0.0 ? a_color.a * ends * tail * tail * visible : a_color.a;
   v_color = vec4(a_color.rgb, alpha * a_anim.w);
-  gl_PointSize = max(1.0, a_anim.z * u_sizeScale * (0.45 + 0.55 * tail)) * czm_pixelRatio;
+  // The point sprite is enlarged to make room for the halo around the core.
+  gl_PointSize = max(1.0, a_anim.z * u_sizeScale * (0.45 + 0.55 * tail) * (1.0 + 3.0 * u_glow)) * czm_pixelRatio;
 }
 `;
 
 const FS = /* glsl */ `
 in vec4 v_color;
 uniform float u_isLine;
+uniform float u_glow;
 
 void main() {
   if (u_isLine > 0.5) {
     out_FragColor = v_color;
     return;
   }
-  // Soft round glow; with additive blending overlapping particles add up to a bright stream.
+  // Bright core plus a wide soft halo; with additive blending overlapping particles add up to a
+  // glowing stream. r is 0 at the centre and 1 at the sprite's edge; the core keeps its old size.
   vec2 c = gl_PointCoord - 0.5;
-  float d2 = dot(c, c) * 4.0;
-  if (d2 > 1.0) discard;
-  float glow = exp(-d2 * 3.5);
-  out_FragColor = vec4(v_color.rgb, v_color.a * glow);
+  float r2 = dot(c, c) * 4.0;
+  if (r2 > 1.0) discard;
+  float coreScale = 1.0 + 3.0 * u_glow;
+  float core = exp(-r2 * coreScale * coreScale * 3.5);
+  float halo = u_glow * 0.5 * exp(-r2 * 4.0) * (1.0 - r2);
+  // The centre of the core runs white-hot.
+  vec3 rgb = mix(v_color.rgb, vec3(1.0), core * core * min(u_glow, 1.0) * 0.6);
+  out_FragColor = vec4(rgb, v_color.a * (core + halo));
 }
 `;
 
@@ -129,6 +137,7 @@ class FlowPrimitive {
     this.time = 0;
     this.heightScale = 1;
     this.sizeScale = 1;
+    this.glow = 0.8;
     this._data = undefined;
     this._dirty = false;
     this._commands = {};
@@ -174,6 +183,7 @@ class FlowPrimitive {
       u_heightScale: () => this.heightScale,
       u_side: () => ARC.side,
       u_sizeScale: () => this.sizeScale,
+      u_glow: () => this.glow,
       u_center: () => this._center,
       u_isLine: () => (isLine ? 1 : 0),
     });
@@ -280,6 +290,10 @@ export class TrafficFlows {
 
   set heightScale(v) {
     this.flows.heightScale = v;
+  }
+
+  set glow(v) {
+    this.flows.glow = v;
   }
 
   /** Routes with traffic for the current metric and airport filter. */

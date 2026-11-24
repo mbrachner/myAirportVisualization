@@ -629,6 +629,7 @@ trafficAirport.addEventListener("change", () => {
   refreshTraffic();
 });
 $("#traffic-height").addEventListener("input", (e) => traffic && (traffic.heightScale = Number(e.currentTarget.value)));
+$("#traffic-glow").addEventListener("input", (e) => traffic && (traffic.glow = Number(e.currentTarget.value)));
 $("#traffic-speed").addEventListener("change", (e) => traffic && (traffic.speed = Number(e.currentTarget.value)));
 $("#traffic-lines").addEventListener("change", (e) => traffic && (traffic.showLines = e.currentTarget.checked));
 $("#traffic-pause").addEventListener("click", (e) => {
