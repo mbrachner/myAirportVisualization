@@ -42,13 +42,20 @@ const TRAIL = 5; // points per particle: the head plus a fading tail
 const TRAIL_STEP = 0.0065; // tail spacing, in fractions of the route
 const LINE_SEGMENTS = 48;
 const MAX_HEADS = 260; // particles on the busiest route
-const RAMP = ["#2fb8d6", "#4f8dff", "#b06cff", "#ff7a59", "#ffc36b"].map((c) => Color.fromCssColorString(c));
+/** Arc colour schemes: ramps from the quietest to the busiest routes (log-scaled traffic). */
+export const COLOR_SCHEMES = {
+  spectrum: { label: "Spectrum", ramp: ["#2fb8d6", "#4f8dff", "#b06cff", "#ff7a59", "#ffc36b"] },
+  fluorescent: { label: "Blue fluorescent", ramp: ["#1a3cff", "#1f74ff", "#14b8ff", "#4df0ff", "#dcffff"] },
+  ember: { label: "Ember", ramp: ["#b3202e", "#e0431c", "#ff7a1a", "#ffb53a", "#fff0b8"] },
+};
+const RAMPS = Object.fromEntries(Object.entries(COLOR_SCHEMES).map(([k, s]) => [k, s.ramp.map((c) => Color.fromCssColorString(c))]));
 
-/** Colour for a value in [0, 1] (log-scaled traffic), interpolated along RAMP. */
-function rampColor(x) {
-  const f = Math.min(Math.max(x, 0), 1) * (RAMP.length - 1);
-  const i = Math.min(Math.floor(f), RAMP.length - 2);
-  return Color.lerp(RAMP[i], RAMP[i + 1], f - i, new Color());
+/** Colour for a value in [0, 1] (log-scaled traffic), interpolated along the scheme's ramp. */
+function rampColor(scheme, x) {
+  const ramp = RAMPS[scheme] ?? RAMPS.spectrum;
+  const f = Math.min(Math.max(x, 0), 1) * (ramp.length - 1);
+  const i = Math.min(Math.floor(f), ramp.length - 2);
+  return Color.lerp(ramp[i], ramp[i + 1], f - i, new Color());
 }
 
 const ATTRIBUTES = { a_start: 0, a_end: 1, a_arc: 2, a_anim: 3, a_color: 4 };
@@ -227,6 +234,7 @@ export class TrafficFlows {
     this.viewer = viewer;
     this.data = data;
     this.metric = "seats";
+    this.scheme = "spectrum"; // key of COLOR_SCHEMES
     this.airport = ""; // ICAO code to show only its routes; "" for all
     this.speed = 1;
     this.playing = true;
@@ -312,7 +320,7 @@ export class TrafficFlows {
       const n = Math.max(1, Math.round((MAX_HEADS * share * r.flight) / busiest.flight));
       heads += n;
       const level = (Math.log10(Math.max(1, r[this.metric])) - logMin) / (logMax - logMin);
-      return { r, n, level, color: rampColor(level) };
+      return { r, n, level, color: rampColor(this.scheme, level) };
     });
 
     const center = BoundingSphere.fromPoints([...this.airports.values()].map((a) => a.position)).center;

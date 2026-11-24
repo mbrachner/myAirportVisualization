@@ -29,7 +29,7 @@ import { buildLayers, heightQueries, LAYER_DEFS } from "./layers.js";
 import { planArrival, buildProfile } from "./routing.js";
 import { ArrivalDemo } from "./arrival.js";
 import { TowerView, headingPitchTo } from "./towerView.js";
-import { TrafficFlows, METRICS } from "./trafficLayer.js";
+import { TrafficFlows, METRICS, COLOR_SCHEMES } from "./trafficLayer.js";
 
 const ION_TOKEN = import.meta.env.VITE_CESIUM_ION_TOKEN?.trim();
 const GOOGLE_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY?.trim();
@@ -514,6 +514,8 @@ $("#arrival-speed").addEventListener("change", (e) => (arrival.speed = Number(e.
 
 const TRAFFIC_URL = "./data/norway-traffic.json";
 const TRAFFIC_PREF = "traffic-show";
+const SCHEME_PREF = "traffic-scheme";
+const trafficScheme = $("#traffic-scheme");
 let traffic;
 const trafficShow = $("#traffic-show");
 const trafficMetric = $("#traffic-metric");
@@ -570,6 +572,19 @@ async function loadTraffic({ show = false } = {}) {
     return;
   }
   for (const [key, m] of Object.entries(METRICS)) trafficMetric.add(new Option(m.label, key));
+  for (const [key, s] of Object.entries(COLOR_SCHEMES)) trafficScheme.add(new Option(s.label, key));
+  let scheme;
+  try {
+    scheme = localStorage.getItem(SCHEME_PREF);
+  } catch {
+    // Default scheme.
+  }
+  if (COLOR_SCHEMES[scheme]) {
+    traffic.scheme = scheme;
+    traffic.rebuild();
+  }
+  trafficScheme.value = traffic.scheme;
+  applySchemeToPanel();
   const byTraffic = [...traffic.airports.values()]
     .map((a) => ({ a, v: traffic.routes.filter((r) => r.from === a.icao).reduce((s, r) => s + r.seats + r.passengers, 0) }))
     .sort((x, y) => y.v - x.v);
@@ -585,6 +600,11 @@ async function loadTraffic({ show = false } = {}) {
   renderTrafficStats();
 }
 
+/** The top-routes bars use the same gradient as the arcs. */
+function applySchemeToPanel() {
+  $("#traffic-top").style.setProperty("--ramp", `linear-gradient(90deg, ${COLOR_SCHEMES[traffic.scheme].ramp.join(", ")})`);
+}
+
 const refreshTraffic = () => {
   traffic.rebuild();
   renderTrafficStats();
@@ -593,6 +613,16 @@ trafficShow.addEventListener("change", () => setTrafficShown(trafficShow.checked
 trafficMetric.addEventListener("change", () => {
   traffic.metric = trafficMetric.value;
   refreshTraffic();
+});
+trafficScheme.addEventListener("change", () => {
+  traffic.scheme = trafficScheme.value;
+  applySchemeToPanel();
+  refreshTraffic();
+  try {
+    localStorage.setItem(SCHEME_PREF, traffic.scheme);
+  } catch {
+    // Not critical.
+  }
 });
 trafficAirport.addEventListener("change", () => {
   traffic.airport = trafficAirport.value;

@@ -18,7 +18,7 @@ Interactive 3D visualization of **Oslo Airport Gardermoen (OSL / ENGM)** built w
   Statistics Norway. Each route is a stream of glowing GPU particles on a ballistic arc: a projectile
   parabola whose apex grows with distance, flown at constant horizontal speed with a flight time
   proportional to √apex. The two directions bulge to opposite sides. Particles per second are
-  proportional to traffic. Switch between seats and flights (last 12 published months) or
+  proportional to traffic. Choose a colour scheme (Spectrum, Blue fluorescent, Ember). Switch between seats and flights (last 12 published months) or
   passengers (2019), filter to one airport (or click its dot), change the arc height and speed,
   and see the top 10 city pairs. Open `?norway` to start in the national view
 - Base maps: Esri World Imagery, Kartverket topo/grey, OpenStreetMap; with keys also Bing aerial,
