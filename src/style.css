@@ -246,3 +246,61 @@ code {
     max-height: 55%;
   }
 }
+
+/* Domestic traffic */
+.traffic-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 8px 0;
+}
+
+.traffic-grid label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.traffic-grid select,
+.traffic-grid input[type="range"] {
+  width: 100%;
+  min-width: 0;
+}
+
+.top-routes {
+  margin: 6px 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: route;
+  font-size: 12px;
+}
+
+.top-routes li {
+  display: grid;
+  grid-template-columns: 18px 1fr auto;
+  gap: 6px;
+  padding: 3px 0;
+  border-bottom: 1px solid var(--border);
+  counter-increment: route;
+}
+
+.top-routes li::before {
+  content: counter(route);
+  color: var(--muted);
+}
+
+.top-routes .value {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.top-routes .bar {
+  grid-column: 2 / 4;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #38d1e0, #c38bff, #ff9d5c);
+}
+
+#panel .source a {
+  color: var(--accent);
+}

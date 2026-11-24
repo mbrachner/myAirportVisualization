@@ -29,6 +29,7 @@ import { buildLayers, heightQueries, LAYER_DEFS } from "./layers.js";
 import { planArrival, buildProfile } from "./routing.js";
 import { ArrivalDemo } from "./arrival.js";
 import { TowerView, headingPitchTo } from "./towerView.js";
+import { TrafficFlows, METRICS } from "./trafficLayer.js";
 
 const ION_TOKEN = import.meta.env.VITE_CESIUM_ION_TOKEN?.trim();
 const GOOGLE_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY?.trim();
@@ -507,13 +508,128 @@ routeToggle.addEventListener("change", () => {
 });
 $("#arrival-speed").addEventListener("change", (e) => (arrival.speed = Number(e.currentTarget.value)));
 
+
+// ---------------------------------------------------------------------------
+// Domestic traffic: particle flows on ballistic arcs between Norwegian airports (SSB statistics)
+
+const TRAFFIC_URL = "./data/norway-traffic.json";
+const TRAFFIC_PREF = "traffic-show";
+let traffic;
+const trafficShow = $("#traffic-show");
+const trafficMetric = $("#traffic-metric");
+const trafficAirport = $("#traffic-airport");
+const nf = new Intl.NumberFormat("en-GB");
+const compact = new Intl.NumberFormat("en-GB", { notation: "compact", maximumFractionDigits: 1 });
+
+function norwayView(duration = 3) {
+  towerView.exit();
+  viewer.trackedEntity = undefined;
+  // From the south-west, looking north-east along the coast so Svalbard is on the horizon.
+  viewer.camera.flyTo({
+    destination: Cartesian3.fromDegrees(8.5, 49.5, 1_900_000),
+    orientation: { heading: CesiumMath.toRadians(14), pitch: CesiumMath.toRadians(-47), roll: 0 },
+    duration,
+  });
+}
+
+function renderTrafficStats() {
+  const unit = METRICS[traffic.metric].unit;
+  const { routes, value } = traffic.totals();
+  const where = traffic.airport ? ` to and from ${traffic.airports.get(traffic.airport).name}` : "";
+  $("#traffic-summary").textContent = `${traffic.periodLabel()}: ${nf.format(value)} ${unit}${where} on ${routes} directed routes.`;
+  const top = traffic.topPairs(10);
+  const max = top[0]?.value ?? 1;
+  const name = (c) => traffic.airports.get(c).name.split(" ")[0];
+  $("#traffic-top").innerHTML = top
+    .map(
+      (p) => `<li><span>${name(p.a)} – ${name(p.b)}</span><span class="value" title="${nf.format(p.value)} ${unit}, both directions">${compact.format(p.value)}</span>` +
+        `<span class="bar" style="width:${((100 * p.value) / max).toFixed(1)}%"></span></li>`,
+    )
+    .join("");
+}
+
+function setTrafficShown(on) {
+  trafficShow.checked = on;
+  if (traffic) traffic.show = on;
+  try {
+    localStorage.setItem(TRAFFIC_PREF, on ? "1" : "0");
+  } catch {
+    // Not critical.
+  }
+}
+
+async function loadTraffic({ show = false } = {}) {
+  try {
+    const res = await fetch(TRAFFIC_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    traffic = new TrafficFlows(viewer, await res.json());
+  } catch (err) {
+    console.warn(err);
+    $("#traffic").querySelectorAll("input, select, button").forEach((el) => (el.disabled = true));
+    $("#traffic-summary").textContent = `Traffic data unavailable (${err.message}). Run npm run fetch-traffic.`;
+    return;
+  }
+  for (const [key, m] of Object.entries(METRICS)) trafficMetric.add(new Option(m.label, key));
+  const byTraffic = [...traffic.airports.values()]
+    .map((a) => ({ a, v: traffic.routes.filter((r) => r.from === a.icao).reduce((s, r) => s + r.seats + r.passengers, 0) }))
+    .sort((x, y) => y.v - x.v);
+  for (const { a } of byTraffic) trafficAirport.add(new Option(`${a.name} (${a.icao})`, a.icao));
+
+  let shown = show;
+  try {
+    shown ||= localStorage.getItem(TRAFFIC_PREF) === "1";
+  } catch {
+    // Default: hidden, so the airport view starts uncluttered.
+  }
+  setTrafficShown(shown);
+  renderTrafficStats();
+}
+
+const refreshTraffic = () => {
+  traffic.rebuild();
+  renderTrafficStats();
+};
+trafficShow.addEventListener("change", () => setTrafficShown(trafficShow.checked));
+trafficMetric.addEventListener("change", () => {
+  traffic.metric = trafficMetric.value;
+  refreshTraffic();
+});
+trafficAirport.addEventListener("change", () => {
+  traffic.airport = trafficAirport.value;
+  refreshTraffic();
+});
+$("#traffic-height").addEventListener("input", (e) => traffic && (traffic.heightScale = Number(e.currentTarget.value)));
+$("#traffic-speed").addEventListener("change", (e) => traffic && (traffic.speed = Number(e.currentTarget.value)));
+$("#traffic-lines").addEventListener("change", (e) => traffic && (traffic.showLines = e.currentTarget.checked));
+$("#traffic-pause").addEventListener("click", (e) => {
+  if (!traffic) return;
+  traffic.playing = !traffic.playing;
+  e.currentTarget.textContent = traffic.playing ? "Pause" : "Play";
+});
+$("#traffic-view").addEventListener("click", () => {
+  setTrafficShown(true);
+  norwayView();
+});
+// Clicking an airport dot shows only that airport's routes.
+viewer.selectedEntityChanged.addEventListener((entity) => {
+  if (!traffic?.show || !entity?.icao || entity.icao === traffic.airport) return;
+  trafficAirport.value = entity.icao;
+  traffic.airport = entity.icao;
+  refreshTraffic();
+});
+
 $("#reload").addEventListener("click", () => loadData({ live: true }));
 
 // Expose the viewer for debugging and benchmarks: open the page with ?debug
 if (new URLSearchParams(location.search).has("debug")) {
   window.__viewer = viewer;
   window.__arrival = arrival;
+  window.__traffic = () => traffic;
 }
 
+// ?norway opens straight on the national traffic view.
+const startNorway = new URLSearchParams(location.search).has("norway");
+if (startNorway) norwayView(0);
+loadTraffic({ show: startNorway });
 await loadData();
-overview(3);
+if (!startNorway) overview(3);
