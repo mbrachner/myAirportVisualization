@@ -68,7 +68,7 @@ export const ARC = {
   apexRatio: 0.12, // apex height as a fraction of the route distance
   minApex: 8000, // m, so short hops still lift off visibly
   side: 0.25, // sideways bulge (to the right of travel) as a fraction of the height
-  timeScale: 0.018, // s per √m of apex: like a fall time, T = 2·√(2h/g), scaled to be watchable
+  timeScale: 0.18, // s per √m of apex: like a fall time, T = 2·√(2h/g), scaled to be watchable (Oslo–Bergen ≈ 35 s)
 };
 
 export const apexHeight = (d) => Math.max(ARC.minApex, ARC.apexRatio * d);
