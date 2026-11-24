@@ -21,7 +21,8 @@ import {
   Matrix4,
   NearFarScalar,
   Pass,
-  PointPrimitiveCollection,
+  BillboardCollection,
+  HeightReference,
   PrimitiveType,
   RenderState,
   ShaderProgram,
@@ -233,6 +234,25 @@ class FlowPrimitive {
   }
 }
 
+const MARKER_EYE_OFFSET = new Cartesian3(0, 0, -300);
+
+/** White disc with a dark rim, drawn large and shown scaled down so it stays smooth. Cached. */
+let markerUrl;
+function markerImage() {
+  if (markerUrl) return markerUrl;
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = 64;
+  const g = canvas.getContext("2d");
+  g.beginPath();
+  g.arc(32, 32, 27, 0, Math.PI * 2);
+  g.fillStyle = "#ffffff";
+  g.fill();
+  g.lineWidth = 8;
+  g.strokeStyle = "#0b1320";
+  g.stroke();
+  return (markerUrl = canvas.toDataURL());
+}
+
 const fmt = new Intl.NumberFormat("en-GB");
 const escapeHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
@@ -258,10 +278,13 @@ export class TrafficFlows {
       });
 
     this.flows = new FlowPrimitive();
-    this.points = new PointPrimitiveCollection();
-    this.labels = new LabelCollection();
-    viewer.scene.primitives.add(this.flows);
+    // Airport markers are billboards so they can be clamped to the ground. They are depth tested
+    // and added before the flows: opaque commands draw in insertion order, so the arcs (which don't
+    // write depth) are drawn over them.
+    this.points = new BillboardCollection({ scene: viewer.scene });
+    this.labels = new LabelCollection({ scene: viewer.scene });
     viewer.scene.primitives.add(this.points);
+    viewer.scene.primitives.add(this.flows);
     viewer.scene.primitives.add(this.labels);
 
     this._onTick = () => {
@@ -395,14 +418,16 @@ export class TrafficFlows {
       const a = this.airports.get(icao);
       const level = Math.sqrt(value / max);
       const id = this._airportEntity(a);
-      const position = Cartesian3.fromDegrees(a.lon, a.lat, 300);
+      const position = a.position;
+      const size = 6 + 9 * level;
       this.points.add({
         position,
-        pixelSize: 5 + 9 * level,
-        color: Color.WHITE.withAlpha(0.95),
-        outlineColor: Color.fromCssColorString("#0b1320"),
-        outlineWidth: 2,
-        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        image: markerImage(),
+        width: size,
+        height: size,
+        heightReference: HeightReference.CLAMP_TO_GROUND,
+        // Nudge towards the camera so the disc isn't lost in the ground it sits on (equal depth).
+        eyeOffset: MARKER_EYE_OFFSET,
         id,
       });
       this.labels.add({
@@ -415,7 +440,8 @@ export class TrafficFlows {
         outlineWidth: 6,
         style: LabelStyle.FILL_AND_OUTLINE,
         verticalOrigin: VerticalOrigin.BOTTOM,
-        pixelOffset: new Cartesian2(0, -10),
+        pixelOffset: new Cartesian2(0, -(size / 2 + 3)),
+        heightReference: HeightReference.CLAMP_TO_GROUND,
         scaleByDistance: new NearFarScalar(3e5, 0.55, 4e6, 0.375),
         translucencyByDistance: level > 0.15 || icao === this.airport ? undefined : new NearFarScalar(1.2e6, 1, 2.5e6, 0),
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
