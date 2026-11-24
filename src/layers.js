@@ -129,7 +129,9 @@ function groundLines(instances, appearance) {
 const dashed = (color, dashLength) =>
   new PolylineMaterialAppearance({ material: Material.fromType("PolylineDash", { color, dashLength }) });
 
-function labelOptions(text, position, id, { font = "600 12px system-ui, sans-serif", maxDistance } = {}) {
+// Fonts are rasterized at twice the displayed size and scaled down by scaleByDistance, which keeps
+// label text sharp.
+function labelOptions(text, position, id, { font = "600 24px system-ui, sans-serif", maxDistance } = {}) {
   return {
     id,
     position,
@@ -137,14 +139,14 @@ function labelOptions(text, position, id, { font = "600 12px system-ui, sans-ser
     font,
     fillColor: Color.WHITE,
     outlineColor: Color.BLACK.withAlpha(0.85),
-    outlineWidth: 3,
+    outlineWidth: 6,
     style: LabelStyle.FILL_AND_OUTLINE,
     verticalOrigin: VerticalOrigin.BOTTOM,
     horizontalOrigin: HorizontalOrigin.CENTER,
     pixelOffset: new Cartesian2(0, -8),
     disableDepthTestDistance: Number.POSITIVE_INFINITY,
     distanceDisplayCondition: maxDistance ? new DistanceDisplayCondition(0, maxDistance) : undefined,
-    scaleByDistance: new NearFarScalar(300, 1.1, 8000, 0.7),
+    scaleByDistance: new NearFarScalar(300, 0.55, 8000, 0.35),
   };
 }
 
@@ -213,7 +215,7 @@ export function buildLayers(layers, heightAt = () => 0) {
       index.runwayEnds.push(end);
       const position = Cartesian3.fromDegrees(...end.position, heightAt(end.position) + POINT_LIFT);
       const id = new Entity({ name: `Runway ${end.designator} threshold`, position });
-      runwayLabels.add(labelOptions(end.designator, position, id, { font: "700 18px system-ui, sans-serif" }));
+      runwayLabels.add(labelOptions(end.designator, position, id, { font: "700 36px system-ui, sans-serif" }));
     }
   }
   if (runwayLabels.length) collections.runway.add(runwayLabels);

@@ -408,14 +408,15 @@ export class TrafficFlows {
       this.labels.add({
         position,
         text: a.name.split(" ")[0],
-        font: `${level > 0.25 ? 600 : 500} 13px system-ui, sans-serif`,
+        // Rasterized at twice the size and scaled down (scaleByDistance) so the text stays sharp.
+        font: `${level > 0.25 ? 600 : 500} 26px system-ui, sans-serif`,
         fillColor: Color.WHITE,
         outlineColor: Color.BLACK.withAlpha(0.8),
-        outlineWidth: 3,
+        outlineWidth: 6,
         style: LabelStyle.FILL_AND_OUTLINE,
         verticalOrigin: VerticalOrigin.BOTTOM,
         pixelOffset: new Cartesian2(0, -10),
-        scaleByDistance: new NearFarScalar(3e5, 1.1, 4e6, 0.75),
+        scaleByDistance: new NearFarScalar(3e5, 0.55, 4e6, 0.375),
         translucencyByDistance: level > 0.15 || icao === this.airport ? undefined : new NearFarScalar(1.2e6, 1, 2.5e6, 0),
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
         id,

@@ -138,6 +138,10 @@ const viewer = new Viewer("cesiumContainer", {
 viewer.scene.globe.depthTestAgainstTerrain = true;
 viewer.scene.globe.enableLighting = false;
 viewer.scene.skyAtmosphere.show = true;
+// Render at the display's real resolution: Cesium's default renders at CSS pixels, so on high-DPI
+// screens labels, markers and particles are upscaled and look coarse. Capped at 2x for speed.
+viewer.useBrowserRecommendedResolution = false;
+viewer.resolutionScale = Math.min(window.devicePixelRatio || 1, 2) / (window.devicePixelRatio || 1);
 
 // ---------------------------------------------------------------------------
 // Camera helpers
