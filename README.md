@@ -14,8 +14,29 @@ Interactive 3D visualization of **Oslo Airport Gardermoen (OSL / ENGM)** built w
 - **Arrival demo:** a simulated Norwegian Boeing 737-800 (NAX741) flies a 3° approach to runway
   01L, lands, brakes, leaves the runway at the quickest exit and taxis along the OSM taxiway
   network to gate A12, then loops. Pause, restart, follow and 1×/3×/10× speed in the side panel
+- **Domestic traffic:** flows between all 50 Norwegian airports with scheduled domestic traffic, from
+  Statistics Norway. Each route is a stream of glowing GPU particles on a ballistic arc: a projectile
+  parabola whose apex grows with distance, flown at constant horizontal speed with a flight time
+  proportional to √apex. The two directions bulge to opposite sides. Particles per second are
+  proportional to traffic. Switch between seats and flights (last 12 published months) or
+  passengers (2019), filter to one airport (or click its dot), change the arc height and speed,
+  and see the top 10 city pairs. Open `?norway` to start in the national view
 - Base maps: Esri World Imagery, Kartverket topo/grey, OpenStreetMap; with keys also Bing aerial,
   Cesium World Terrain, Cesium OSM Buildings and Google Photorealistic 3D Tiles
+
+## Traffic data
+
+`public/data/norway-traffic.json` is a committed snapshot. Refresh it with:
+
+```bash
+npm run fetch-traffic
+```
+
+It reads [SSB table 08511](https://www.ssb.no/en/statbank/table/08511) (flights and seats between
+Norwegian airports, monthly, current) and [08509](https://www.ssb.no/en/statbank/table/08509)
+(passengers between airports; discontinued after April 2022, so 2019 is used as the last full normal
+year), both CC BY 4.0, plus airport positions from [OurAirports](https://ourairports.com/data/)
+(public domain). Behind an HTTPS proxy, run it with `NODE_USE_ENV_PROXY=1`.
 
 ## Getting started
 

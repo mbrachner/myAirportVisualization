@@ -9,7 +9,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "fetch-osm": "node scripts/fetch-osm.mjs",
-    "test": "node --test test/*.test.mjs"
+    "test": "node --test test/*.test.mjs",
+    "fetch-traffic": "node scripts/fetch-traffic.mjs"
   },
   "dependencies": {
     "cesium": "1.146.0"

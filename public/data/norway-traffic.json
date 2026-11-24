@@ -1,0 +1,3831 @@
+{
+ "fetched": "2026-11-24T07:37:48.254Z",
+ "sources": {
+  "flightsSeats": {
+   "table": "08511",
+   "url": "https://www.ssb.no/en/statbank/table/08511",
+   "period": [
+    "2025M10",
+    "2026M09"
+   ]
+  },
+  "passengers": {
+   "table": "08509",
+   "url": "https://www.ssb.no/en/statbank/table/08509",
+   "year": 2019
+  },
+  "positions": "OurAirports (public domain), https://ourairports.com/data/",
+  "licence": "Statistics Norway, CC BY 4.0"
+ },
+ "airports": [
+  {
+   "icao": "ENAL",
+   "name": "Ålesund Vigra",
+   "lat": 62.56044,
+   "lon": 6.11085
+  },
+  {
+   "icao": "ENAN",
+   "name": "Andenes Andøya",
+   "lat": 69.29519,
+   "lon": 16.13938
+  },
+  {
+   "icao": "ENAT",
+   "name": "Alta",
+   "lat": 69.9761,
+   "lon": 23.3717
+  },
+  {
+   "icao": "ENBL",
+   "name": "Førde Bringeland",
+   "lat": 61.3911,
+   "lon": 5.75694
+  },
+  {
+   "icao": "ENBN",
+   "name": "Brønnøysund Brønnøy",
+   "lat": 65.4611,
+   "lon": 12.2175
+  },
+  {
+   "icao": "ENBO",
+   "name": "Bodø",
+   "lat": 67.2692,
+   "lon": 14.3653
+  },
+  {
+   "icao": "ENBR",
+   "name": "Bergen Flesland",
+   "lat": 60.2934,
+   "lon": 5.21814
+  },
+  {
+   "icao": "ENBS",
+   "name": "Båtsfjord",
+   "lat": 70.60025,
+   "lon": 29.69261
+  },
+  {
+   "icao": "ENBV",
+   "name": "Berlevåg",
+   "lat": 70.87152,
+   "lon": 29.0341
+  },
+  {
+   "icao": "ENCN",
+   "name": "Kristiansand Kjevik",
+   "lat": 58.2042,
+   "lon": 8.08537
+  },
+  {
+   "icao": "ENDU",
+   "name": "Bardufoss",
+   "lat": 69.0558,
+   "lon": 18.5404
+  },
+  {
+   "icao": "ENEV",
+   "name": "Harstad/Narvik Evenes",
+   "lat": 68.4913,
+   "lon": 16.6781
+  },
+  {
+   "icao": "ENFL",
+   "name": "Florø",
+   "lat": 61.5836,
+   "lon": 5.02472
+  },
+  {
+   "icao": "ENGM",
+   "name": "Oslo Gardermoen",
+   "lat": 60.1939,
+   "lon": 11.1004
+  },
+  {
+   "icao": "ENHD",
+   "name": "Haugesund Karmøy",
+   "lat": 59.3453,
+   "lon": 5.20836
+  },
+  {
+   "icao": "ENHF",
+   "name": "Hammerfest",
+   "lat": 70.6797,
+   "lon": 23.6686
+  },
+  {
+   "icao": "ENHK",
+   "name": "Hasvik",
+   "lat": 70.4867,
+   "lon": 22.1397
+  },
+  {
+   "icao": "ENHV",
+   "name": "Honningsvåg Valan",
+   "lat": 71.0097,
+   "lon": 25.9836
+  },
+  {
+   "icao": "ENKB",
+   "name": "Kristiansund Kvernberget",
+   "lat": 63.1118,
+   "lon": 7.82452
+  },
+  {
+   "icao": "ENKR",
+   "name": "Kirkenes Høybuktmoen",
+   "lat": 69.7258,
+   "lon": 29.8913
+  },
+  {
+   "icao": "ENLK",
+   "name": "Vestvågøy Leknes",
+   "lat": 68.1525,
+   "lon": 13.6094
+  },
+  {
+   "icao": "ENMH",
+   "name": "Mehamn",
+   "lat": 71.0297,
+   "lon": 27.8267
+  },
+  {
+   "icao": "ENML",
+   "name": "Molde Årø",
+   "lat": 62.7447,
+   "lon": 7.2625
+  },
+  {
+   "icao": "ENMS",
+   "name": "Mosjøen Kjærstad",
+   "lat": 65.784,
+   "lon": 13.2149
+  },
+  {
+   "icao": "ENNA",
+   "name": "Lakselv Banak",
+   "lat": 70.0688,
+   "lon": 24.9735
+  },
+  {
+   "icao": "ENNM",
+   "name": "Namsos",
+   "lat": 64.4722,
+   "lon": 11.5786
+  },
+  {
+   "icao": "ENNO",
+   "name": "Notodden",
+   "lat": 59.56507,
+   "lon": 9.21315
+  },
+  {
+   "icao": "ENOL",
+   "name": "Ørland",
+   "lat": 63.6989,
+   "lon": 9.604
+  },
+  {
+   "icao": "ENOV",
+   "name": "Ørsta-Volda Hovden",
+   "lat": 62.18,
+   "lon": 6.0741
+  },
+  {
+   "icao": "ENRA",
+   "name": "Mo i Rana Røssvold",
+   "lat": 66.3639,
+   "lon": 14.3014
+  },
+  {
+   "icao": "ENRM",
+   "name": "Rørvik Ryum",
+   "lat": 64.8383,
+   "lon": 11.1461
+  },
+  {
+   "icao": "ENRO",
+   "name": "Røros",
+   "lat": 62.5784,
+   "lon": 11.3423
+  },
+  {
+   "icao": "ENRS",
+   "name": "Røst",
+   "lat": 67.52648,
+   "lon": 12.10158
+  },
+  {
+   "icao": "ENRY",
+   "name": "Moss Rygge",
+   "lat": 59.37882,
+   "lon": 10.78544
+  },
+  {
+   "icao": "ENSB",
+   "name": "Svalbard Longyear",
+   "lat": 78.2461,
+   "lon": 15.4656
+  },
+  {
+   "icao": "ENSD",
+   "name": "Sandane Anda",
+   "lat": 61.83,
+   "lon": 6.10583
+  },
+  {
+   "icao": "ENSG",
+   "name": "Sogndal Haukåsen",
+   "lat": 61.1561,
+   "lon": 7.13778
+  },
+  {
+   "icao": "ENSH",
+   "name": "Svolvær Helle",
+   "lat": 68.2433,
+   "lon": 14.6692
+  },
+  {
+   "icao": "ENSK",
+   "name": "Stokmarknes Skagen",
+   "lat": 68.57883,
+   "lon": 15.03342
+  },
+  {
+   "icao": "ENSN",
+   "name": "Skien Geitryggen",
+   "lat": 59.185,
+   "lon": 9.56694
+  },
+  {
+   "icao": "ENSO",
+   "name": "Stord Sørstokken",
+   "lat": 59.7919,
+   "lon": 5.34085
+  },
+  {
+   "icao": "ENSR",
+   "name": "Sørkjosen",
+   "lat": 69.7868,
+   "lon": 20.9594
+  },
+  {
+   "icao": "ENSS",
+   "name": "Vardø Svartnes",
+   "lat": 70.3554,
+   "lon": 31.0449
+  },
+  {
+   "icao": "ENST",
+   "name": "Sandnessjøen Stokka",
+   "lat": 65.9568,
+   "lon": 12.4689
+  },
+  {
+   "icao": "ENTC",
+   "name": "Tromsø Langnes",
+   "lat": 69.6833,
+   "lon": 18.9189
+  },
+  {
+   "icao": "ENTO",
+   "name": "Sandefjord Torp",
+   "lat": 59.1867,
+   "lon": 10.2586
+  },
+  {
+   "icao": "ENVA",
+   "name": "Trondheim Værnes",
+   "lat": 63.4578,
+   "lon": 10.924
+  },
+  {
+   "icao": "ENVD",
+   "name": "Vadsø",
+   "lat": 70.0653,
+   "lon": 29.8447
+  },
+  {
+   "icao": "ENVR",
+   "name": "Værøy",
+   "lat": 67.65456,
+   "lon": 12.72726
+  },
+  {
+   "icao": "ENZV",
+   "name": "Stavanger Sola",
+   "lat": 58.8767,
+   "lon": 5.63778
+  }
+ ],
+ "routes": [
+  {
+   "from": "ENGM",
+   "to": "ENZV",
+   "flights": 5888,
+   "seats": 989556,
+   "passengers": 838912
+  },
+  {
+   "from": "ENGM",
+   "to": "ENBR",
+   "flights": 6813,
+   "seats": 1168925,
+   "passengers": 992497
+  },
+  {
+   "from": "ENGM",
+   "to": "ENVA",
+   "flights": 7017,
+   "seats": 1209491,
+   "passengers": 1047972
+  },
+  {
+   "from": "ENGM",
+   "to": "ENAT",
+   "flights": 664,
+   "seats": 122575,
+   "passengers": 82373
+  },
+  {
+   "from": "ENGM",
+   "to": "ENAN",
+   "flights": 21,
+   "seats": 3548,
+   "passengers": 2863
+  },
+  {
+   "from": "ENGM",
+   "to": "ENDU",
+   "flights": 876,
+   "seats": 164760,
+   "passengers": 121680
+  },
+  {
+   "from": "ENGM",
+   "to": "ENBO",
+   "flights": 3389,
+   "seats": 596162,
+   "passengers": 417224
+  },
+  {
+   "from": "ENGM",
+   "to": "ENBN",
+   "flights": 279,
+   "seats": 11553,
+   "passengers": 5461
+  },
+  {
+   "from": "ENGM",
+   "to": "ENFL",
+   "flights": 1040,
+   "seats": 47069,
+   "passengers": 24320
+  },
+  {
+   "from": "ENGM",
+   "to": "ENBL",
+   "flights": 1345,
+   "seats": 53259,
+   "passengers": 35759
+  },
+  {
+   "from": "ENGM",
+   "to": "ENEV",
+   "flights": 2474,
+   "seats": 461049,
+   "passengers": 301836
+  },
+  {
+   "from": "ENGM",
+   "to": "ENHD",
+   "flights": 1676,
+   "seats": 263845,
+   "passengers": 235880
+  },
+  {
+   "from": "ENGM",
+   "to": "ENKR",
+   "flights": 733,
+   "seats": 136316,
+   "passengers": 103862
+  },
+  {
+   "from": "ENGM",
+   "to": "ENCN",
+   "flights": 1687,
+   "seats": 277274,
+   "passengers": 256476
+  },
+  {
+   "from": "ENGM",
+   "to": "ENKB",
+   "flights": 906,
+   "seats": 114650,
+   "passengers": 93084
+  },
+  {
+   "from": "ENGM",
+   "to": "ENNA",
+   "flights": 101,
+   "seats": 19077,
+   "passengers": 3560
+  },
+  {
+   "from": "ENGM",
+   "to": "ENRA",
+   "flights": 1,
+   "seats": 7,
+   "passengers": 4684
+  },
+  {
+   "from": "ENGM",
+   "to": "ENML",
+   "flights": 933,
+   "seats": 170964,
+   "passengers": 175716
+  },
+  {
+   "from": "ENGM",
+   "to": "ENRY",
+   "flights": 4,
+   "seats": 23,
+   "passengers": 0
+  },
+  {
+   "from": "ENGM",
+   "to": "ENRO",
+   "flights": 515,
+   "seats": 24904,
+   "passengers": 13152
+  },
+  {
+   "from": "ENGM",
+   "to": "ENSD",
+   "flights": 650,
+   "seats": 25742,
+   "passengers": 8520
+  },
+  {
+   "from": "ENGM",
+   "to": "ENTO",
+   "flights": 5,
+   "seats": 58,
+   "passengers": 194
+  },
+  {
+   "from": "ENGM",
+   "to": "ENST",
+   "flights": 52,
+   "seats": 2529,
+   "passengers": 4901
+  },
+  {
+   "from": "ENGM",
+   "to": "ENSN",
+   "flights": 1,
+   "seats": 6,
+   "passengers": 0
+  },
+  {
+   "from": "ENGM",
+   "to": "ENSG",
+   "flights": 949,
+   "seats": 37543,
+   "passengers": 28302
+  },
+  {
+   "from": "ENGM",
+   "to": "ENSK",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 839
+  },
+  {
+   "from": "ENGM",
+   "to": "ENSO",
+   "flights": 782,
+   "seats": 35626,
+   "passengers": 18691
+  },
+  {
+   "from": "ENGM",
+   "to": "ENSB",
+   "flights": 549,
+   "seats": 100167,
+   "passengers": 58303
+  },
+  {
+   "from": "ENGM",
+   "to": "ENSH",
+   "flights": 56,
+   "seats": 2144,
+   "passengers": 3594
+  },
+  {
+   "from": "ENGM",
+   "to": "ENTC",
+   "flights": 4106,
+   "seats": 749260,
+   "passengers": 621394
+  },
+  {
+   "from": "ENGM",
+   "to": "ENLK",
+   "flights": 72,
+   "seats": 2806,
+   "passengers": 3891
+  },
+  {
+   "from": "ENGM",
+   "to": "ENOL",
+   "flights": 461,
+   "seats": 20407,
+   "passengers": 10748
+  },
+  {
+   "from": "ENGM",
+   "to": "ENOV",
+   "flights": 1857,
+   "seats": 73819,
+   "passengers": 41992
+  },
+  {
+   "from": "ENGM",
+   "to": "ENAL",
+   "flights": 2353,
+   "seats": 370970,
+   "passengers": 325002
+  },
+  {
+   "from": "ENZV",
+   "to": "ENGM",
+   "flights": 5848,
+   "seats": 989243,
+   "passengers": 842477
+  },
+  {
+   "from": "ENZV",
+   "to": "ENBR",
+   "flights": 4173,
+   "seats": 402293,
+   "passengers": 292754
+  },
+  {
+   "from": "ENZV",
+   "to": "ENVA",
+   "flights": 874,
+   "seats": 102577,
+   "passengers": 61872
+  },
+  {
+   "from": "ENZV",
+   "to": "ENDU",
+   "flights": 1,
+   "seats": 6,
+   "passengers": 0
+  },
+  {
+   "from": "ENZV",
+   "to": "ENBO",
+   "flights": 1,
+   "seats": 50,
+   "passengers": 0
+  },
+  {
+   "from": "ENZV",
+   "to": "ENEV",
+   "flights": 1,
+   "seats": 50,
+   "passengers": 0
+  },
+  {
+   "from": "ENZV",
+   "to": "ENHD",
+   "flights": 6,
+   "seats": 329,
+   "passengers": 168
+  },
+  {
+   "from": "ENZV",
+   "to": "ENNO",
+   "flights": 4,
+   "seats": 28,
+   "passengers": 0
+  },
+  {
+   "from": "ENZV",
+   "to": "ENTO",
+   "flights": 657,
+   "seats": 51163,
+   "passengers": 39654
+  },
+  {
+   "from": "ENZV",
+   "to": "ENSO",
+   "flights": 2,
+   "seats": 54,
+   "passengers": 0
+  },
+  {
+   "from": "ENZV",
+   "to": "ENTC",
+   "flights": 2,
+   "seats": 85,
+   "passengers": 185
+  },
+  {
+   "from": "ENBR",
+   "to": "ENGM",
+   "flights": 6733,
+   "seats": 1160051,
+   "passengers": 1011521
+  },
+  {
+   "from": "ENBR",
+   "to": "ENZV",
+   "flights": 4281,
+   "seats": 418689,
+   "passengers": 285418
+  },
+  {
+   "from": "ENBR",
+   "to": "ENVA",
+   "flights": 2957,
+   "seats": 286631,
+   "passengers": 200706
+  },
+  {
+   "from": "ENBR",
+   "to": "ENAT",
+   "flights": 1,
+   "seats": 78,
+   "passengers": 0
+  },
+  {
+   "from": "ENBR",
+   "to": "ENBO",
+   "flights": 303,
+   "seats": 23885,
+   "passengers": 32050
+  },
+  {
+   "from": "ENBR",
+   "to": "ENFL",
+   "flights": 1346,
+   "seats": 53518,
+   "passengers": 29347
+  },
+  {
+   "from": "ENBR",
+   "to": "ENBL",
+   "flights": 5,
+   "seats": 168,
+   "passengers": 4571
+  },
+  {
+   "from": "ENBR",
+   "to": "ENEV",
+   "flights": 21,
+   "seats": 3588,
+   "passengers": 4844
+  },
+  {
+   "from": "ENBR",
+   "to": "ENHD",
+   "flights": 1122,
+   "seats": 48258,
+   "passengers": 1434
+  },
+  {
+   "from": "ENBR",
+   "to": "ENCN",
+   "flights": 1591,
+   "seats": 125501,
+   "passengers": 74157
+  },
+  {
+   "from": "ENBR",
+   "to": "ENKB",
+   "flights": 1283,
+   "seats": 98780,
+   "passengers": 34010
+  },
+  {
+   "from": "ENBR",
+   "to": "ENML",
+   "flights": 935,
+   "seats": 71620,
+   "passengers": 25276
+  },
+  {
+   "from": "ENBR",
+   "to": "ENSD",
+   "flights": 7,
+   "seats": 275,
+   "passengers": 54
+  },
+  {
+   "from": "ENBR",
+   "to": "ENTO",
+   "flights": 1601,
+   "seats": 131591,
+   "passengers": 77178
+  },
+  {
+   "from": "ENBR",
+   "to": "ENSG",
+   "flights": 580,
+   "seats": 22989,
+   "passengers": 11549
+  },
+  {
+   "from": "ENBR",
+   "to": "ENSO",
+   "flights": 1,
+   "seats": 2,
+   "passengers": 28
+  },
+  {
+   "from": "ENBR",
+   "to": "ENTC",
+   "flights": 1115,
+   "seats": 117987,
+   "passengers": 54022
+  },
+  {
+   "from": "ENBR",
+   "to": "ENLK",
+   "flights": 21,
+   "seats": 822,
+   "passengers": 0
+  },
+  {
+   "from": "ENBR",
+   "to": "ENOV",
+   "flights": 362,
+   "seats": 14411,
+   "passengers": 8100
+  },
+  {
+   "from": "ENBR",
+   "to": "ENAL",
+   "flights": 1445,
+   "seats": 112968,
+   "passengers": 70202
+  },
+  {
+   "from": "ENVA",
+   "to": "ENGM",
+   "flights": 6892,
+   "seats": 1206734,
+   "passengers": 1058636
+  },
+  {
+   "from": "ENVA",
+   "to": "ENZV",
+   "flights": 848,
+   "seats": 99951,
+   "passengers": 68112
+  },
+  {
+   "from": "ENVA",
+   "to": "ENBR",
+   "flights": 2950,
+   "seats": 286520,
+   "passengers": 199450
+  },
+  {
+   "from": "ENVA",
+   "to": "ENDU",
+   "flights": 3,
+   "seats": 548,
+   "passengers": 145
+  },
+  {
+   "from": "ENVA",
+   "to": "ENBO",
+   "flights": 1613,
+   "seats": 161995,
+   "passengers": 134881
+  },
+  {
+   "from": "ENVA",
+   "to": "ENBN",
+   "flights": 1144,
+   "seats": 54241,
+   "passengers": 37456
+  },
+  {
+   "from": "ENVA",
+   "to": "ENEV",
+   "flights": 324,
+   "seats": 27648,
+   "passengers": 21817
+  },
+  {
+   "from": "ENVA",
+   "to": "ENKB",
+   "flights": 1,
+   "seats": 189,
+   "passengers": 85
+  },
+  {
+   "from": "ENVA",
+   "to": "ENRA",
+   "flights": 1028,
+   "seats": 41399,
+   "passengers": 26717
+  },
+  {
+   "from": "ENVA",
+   "to": "ENML",
+   "flights": 2,
+   "seats": 259,
+   "passengers": 0
+  },
+  {
+   "from": "ENVA",
+   "to": "ENMS",
+   "flights": 873,
+   "seats": 34681,
+   "passengers": 21808
+  },
+  {
+   "from": "ENVA",
+   "to": "ENNM",
+   "flights": 592,
+   "seats": 23547,
+   "passengers": 13921
+  },
+  {
+   "from": "ENVA",
+   "to": "ENRM",
+   "flights": 552,
+   "seats": 21927,
+   "passengers": 13873
+  },
+  {
+   "from": "ENVA",
+   "to": "ENTO",
+   "flights": 690,
+   "seats": 53982,
+   "passengers": 50925
+  },
+  {
+   "from": "ENVA",
+   "to": "ENST",
+   "flights": 837,
+   "seats": 35074,
+   "passengers": 18074
+  },
+  {
+   "from": "ENVA",
+   "to": "ENTC",
+   "flights": 584,
+   "seats": 45932,
+   "passengers": 6964
+  },
+  {
+   "from": "ENVA",
+   "to": "ENAL",
+   "flights": 432,
+   "seats": 26464,
+   "passengers": 33475
+  },
+  {
+   "from": "ENAT",
+   "to": "ENGM",
+   "flights": 657,
+   "seats": 121788,
+   "passengers": 90519
+  },
+  {
+   "from": "ENAT",
+   "to": "ENBR",
+   "flights": 1,
+   "seats": 14,
+   "passengers": 0
+  },
+  {
+   "from": "ENAT",
+   "to": "ENBV",
+   "flights": 234,
+   "seats": 9404,
+   "passengers": 0
+  },
+  {
+   "from": "ENAT",
+   "to": "ENBO",
+   "flights": 1,
+   "seats": 180,
+   "passengers": 0
+  },
+  {
+   "from": "ENAT",
+   "to": "ENBS",
+   "flights": 2,
+   "seats": 77,
+   "passengers": 44
+  },
+  {
+   "from": "ENAT",
+   "to": "ENHF",
+   "flights": 285,
+   "seats": 11383,
+   "passengers": 2396
+  },
+  {
+   "from": "ENAT",
+   "to": "ENHK",
+   "flights": 2,
+   "seats": 78,
+   "passengers": 22
+  },
+  {
+   "from": "ENAT",
+   "to": "ENHV",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 8
+  },
+  {
+   "from": "ENAT",
+   "to": "ENKR",
+   "flights": 297,
+   "seats": 11796,
+   "passengers": 4923
+  },
+  {
+   "from": "ENAT",
+   "to": "ENNA",
+   "flights": 1,
+   "seats": 37,
+   "passengers": 41
+  },
+  {
+   "from": "ENAT",
+   "to": "ENMH",
+   "flights": 7,
+   "seats": 273,
+   "passengers": 32
+  },
+  {
+   "from": "ENAT",
+   "to": "ENSB",
+   "flights": 1,
+   "seats": 2,
+   "passengers": 80
+  },
+  {
+   "from": "ENAT",
+   "to": "ENTC",
+   "flights": 1504,
+   "seats": 136911,
+   "passengers": 79296
+  },
+  {
+   "from": "ENAT",
+   "to": "ENVD",
+   "flights": 68,
+   "seats": 2832,
+   "passengers": 9329
+  },
+  {
+   "from": "ENAT",
+   "to": "ENAL",
+   "flights": 1,
+   "seats": 16,
+   "passengers": 0
+  },
+  {
+   "from": "ENAN",
+   "to": "ENGM",
+   "flights": 18,
+   "seats": 3384,
+   "passengers": 2741
+  },
+  {
+   "from": "ENAN",
+   "to": "ENDU",
+   "flights": 1,
+   "seats": 13,
+   "passengers": 0
+  },
+  {
+   "from": "ENAN",
+   "to": "ENBO",
+   "flights": 56,
+   "seats": 2850,
+   "passengers": 14233
+  },
+  {
+   "from": "ENAN",
+   "to": "ENEV",
+   "flights": 794,
+   "seats": 41584,
+   "passengers": 2281
+  },
+  {
+   "from": "ENAN",
+   "to": "ENSK",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 8
+  },
+  {
+   "from": "ENAN",
+   "to": "ENTC",
+   "flights": 603,
+   "seats": 31420,
+   "passengers": 13628
+  },
+  {
+   "from": "ENAN",
+   "to": "ENAL",
+   "flights": 1,
+   "seats": 50,
+   "passengers": 0
+  },
+  {
+   "from": "ENDU",
+   "to": "ENGM",
+   "flights": 875,
+   "seats": 164410,
+   "passengers": 123982
+  },
+  {
+   "from": "ENBV",
+   "to": "ENAT",
+   "flights": 274,
+   "seats": 10889,
+   "passengers": 0
+  },
+  {
+   "from": "ENBV",
+   "to": "ENHF",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 3545
+  },
+  {
+   "from": "ENBV",
+   "to": "ENKR",
+   "flights": 2,
+   "seats": 79,
+   "passengers": 18
+  },
+  {
+   "from": "ENBV",
+   "to": "ENTC",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 222
+  },
+  {
+   "from": "ENBV",
+   "to": "ENVD",
+   "flights": 505,
+   "seats": 20265,
+   "passengers": 4124
+  },
+  {
+   "from": "ENBO",
+   "to": "ENGM",
+   "flights": 3385,
+   "seats": 595451,
+   "passengers": 420797
+  },
+  {
+   "from": "ENBO",
+   "to": "ENBR",
+   "flights": 293,
+   "seats": 23153,
+   "passengers": 29316
+  },
+  {
+   "from": "ENBO",
+   "to": "ENVA",
+   "flights": 1553,
+   "seats": 158680,
+   "passengers": 137306
+  },
+  {
+   "from": "ENBO",
+   "to": "ENAT",
+   "flights": 2,
+   "seats": 20,
+   "passengers": 77
+  },
+  {
+   "from": "ENBO",
+   "to": "ENAN",
+   "flights": 11,
+   "seats": 409,
+   "passengers": 10275
+  },
+  {
+   "from": "ENBO",
+   "to": "ENDU",
+   "flights": 1,
+   "seats": 400,
+   "passengers": 0
+  },
+  {
+   "from": "ENBO",
+   "to": "ENBN",
+   "flights": 736,
+   "seats": 34253,
+   "passengers": 16104
+  },
+  {
+   "from": "ENBO",
+   "to": "ENEV",
+   "flights": 912,
+   "seats": 47978,
+   "passengers": 21065
+  },
+  {
+   "from": "ENBO",
+   "to": "ENKR",
+   "flights": 4,
+   "seats": 273,
+   "passengers": 132
+  },
+  {
+   "from": "ENBO",
+   "to": "ENCN",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 75
+  },
+  {
+   "from": "ENBO",
+   "to": "ENKB",
+   "flights": 2,
+   "seats": 54,
+   "passengers": 48
+  },
+  {
+   "from": "ENBO",
+   "to": "ENRA",
+   "flights": 933,
+   "seats": 37495,
+   "passengers": 22894
+  },
+  {
+   "from": "ENBO",
+   "to": "ENML",
+   "flights": 3,
+   "seats": 117,
+   "passengers": 27
+  },
+  {
+   "from": "ENBO",
+   "to": "ENMS",
+   "flights": 606,
+   "seats": 24350,
+   "passengers": 14293
+  },
+  {
+   "from": "ENBO",
+   "to": "ENRS",
+   "flights": 297,
+   "seats": 12077,
+   "passengers": 4323
+  },
+  {
+   "from": "ENBO",
+   "to": "ENTO",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 811
+  },
+  {
+   "from": "ENBO",
+   "to": "ENST",
+   "flights": 639,
+   "seats": 29457,
+   "passengers": 12562
+  },
+  {
+   "from": "ENBO",
+   "to": "ENSK",
+   "flights": 1662,
+   "seats": 67865,
+   "passengers": 38364
+  },
+  {
+   "from": "ENBO",
+   "to": "ENSB",
+   "flights": 2,
+   "seats": 378,
+   "passengers": 0
+  },
+  {
+   "from": "ENBO",
+   "to": "ENSH",
+   "flights": 1795,
+   "seats": 72253,
+   "passengers": 40272
+  },
+  {
+   "from": "ENBO",
+   "to": "ENTC",
+   "flights": 1521,
+   "seats": 146025,
+   "passengers": 134914
+  },
+  {
+   "from": "ENBO",
+   "to": "ENVD",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 0
+  },
+  {
+   "from": "ENBO",
+   "to": "ENLK",
+   "flights": 2376,
+   "seats": 96040,
+   "passengers": 50926
+  },
+  {
+   "from": "ENBO",
+   "to": "ENVR",
+   "flights": 561,
+   "seats": 8415,
+   "passengers": 3555
+  },
+  {
+   "from": "ENBN",
+   "to": "ENGM",
+   "flights": 277,
+   "seats": 11461,
+   "passengers": 6025
+  },
+  {
+   "from": "ENBN",
+   "to": "ENVA",
+   "flights": 1149,
+   "seats": 52361,
+   "passengers": 30602
+  },
+  {
+   "from": "ENBN",
+   "to": "ENAN",
+   "flights": 1,
+   "seats": 56,
+   "passengers": 0
+  },
+  {
+   "from": "ENBN",
+   "to": "ENBO",
+   "flights": 728,
+   "seats": 35980,
+   "passengers": 18396
+  },
+  {
+   "from": "ENBN",
+   "to": "ENRA",
+   "flights": 1,
+   "seats": 40,
+   "passengers": 0
+  },
+  {
+   "from": "ENBN",
+   "to": "ENMS",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 0
+  },
+  {
+   "from": "ENBN",
+   "to": "ENRM",
+   "flights": 2,
+   "seats": 79,
+   "passengers": 0
+  },
+  {
+   "from": "ENBN",
+   "to": "ENST",
+   "flights": 54,
+   "seats": 2667,
+   "passengers": 4744
+  },
+  {
+   "from": "ENBS",
+   "to": "ENAT",
+   "flights": 1,
+   "seats": 50,
+   "passengers": 0
+  },
+  {
+   "from": "ENBS",
+   "to": "ENBV",
+   "flights": 262,
+   "seats": 10501,
+   "passengers": 3953
+  },
+  {
+   "from": "ENBS",
+   "to": "ENHF",
+   "flights": 260,
+   "seats": 10383,
+   "passengers": 91
+  },
+  {
+   "from": "ENBS",
+   "to": "ENKR",
+   "flights": 1,
+   "seats": 80,
+   "passengers": 28
+  },
+  {
+   "from": "ENBS",
+   "to": "ENNA",
+   "flights": 1,
+   "seats": 40,
+   "passengers": 9
+  },
+  {
+   "from": "ENBS",
+   "to": "ENTC",
+   "flights": 11,
+   "seats": 471,
+   "passengers": 20
+  },
+  {
+   "from": "ENBS",
+   "to": "ENVD",
+   "flights": 256,
+   "seats": 10349,
+   "passengers": 4659
+  },
+  {
+   "from": "ENBS",
+   "to": "ENSS",
+   "flights": 2,
+   "seats": 78,
+   "passengers": 4367
+  },
+  {
+   "from": "ENFL",
+   "to": "ENGM",
+   "flights": 1033,
+   "seats": 46940,
+   "passengers": 27697
+  },
+  {
+   "from": "ENFL",
+   "to": "ENBR",
+   "flights": 1333,
+   "seats": 52999,
+   "passengers": 29519
+  },
+  {
+   "from": "ENFL",
+   "to": "ENBL",
+   "flights": 2,
+   "seats": 76,
+   "passengers": 2187
+  },
+  {
+   "from": "ENFL",
+   "to": "ENOV",
+   "flights": 4,
+   "seats": 156,
+   "passengers": 29
+  },
+  {
+   "from": "ENBL",
+   "to": "ENGM",
+   "flights": 1341,
+   "seats": 53139,
+   "passengers": 36868
+  },
+  {
+   "from": "ENBL",
+   "to": "ENBR",
+   "flights": 5,
+   "seats": 167,
+   "passengers": 4421
+  },
+  {
+   "from": "ENBL",
+   "to": "ENSG",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 26
+  },
+  {
+   "from": "ENBL",
+   "to": "ENOV",
+   "flights": 1,
+   "seats": 40,
+   "passengers": 0
+  },
+  {
+   "from": "ENHF",
+   "to": "ENAT",
+   "flights": 324,
+   "seats": 12946,
+   "passengers": 97
+  },
+  {
+   "from": "ENHF",
+   "to": "ENBS",
+   "flights": 214,
+   "seats": 8695,
+   "passengers": 10
+  },
+  {
+   "from": "ENHF",
+   "to": "ENHK",
+   "flights": 279,
+   "seats": 11158,
+   "passengers": 8020
+  },
+  {
+   "from": "ENHF",
+   "to": "ENHV",
+   "flights": 244,
+   "seats": 9872,
+   "passengers": 8457
+  },
+  {
+   "from": "ENHF",
+   "to": "ENKR",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 26
+  },
+  {
+   "from": "ENHF",
+   "to": "ENNA",
+   "flights": 3,
+   "seats": 116,
+   "passengers": 46
+  },
+  {
+   "from": "ENHF",
+   "to": "ENMH",
+   "flights": 274,
+   "seats": 11120,
+   "passengers": 5418
+  },
+  {
+   "from": "ENHF",
+   "to": "ENSB",
+   "flights": 1,
+   "seats": 33,
+   "passengers": 0
+  },
+  {
+   "from": "ENHF",
+   "to": "ENTC",
+   "flights": 2341,
+   "seats": 94419,
+   "passengers": 58515
+  },
+  {
+   "from": "ENHF",
+   "to": "ENVD",
+   "flights": 298,
+   "seats": 11855,
+   "passengers": 2842
+  },
+  {
+   "from": "ENHF",
+   "to": "ENSS",
+   "flights": 1,
+   "seats": 37,
+   "passengers": 7
+  },
+  {
+   "from": "ENEV",
+   "to": "ENGM",
+   "flights": 2472,
+   "seats": 461495,
+   "passengers": 303136
+  },
+  {
+   "from": "ENEV",
+   "to": "ENBR",
+   "flights": 19,
+   "seats": 3465,
+   "passengers": 4435
+  },
+  {
+   "from": "ENEV",
+   "to": "ENVA",
+   "flights": 324,
+   "seats": 27640,
+   "passengers": 21106
+  },
+  {
+   "from": "ENEV",
+   "to": "ENAN",
+   "flights": 840,
+   "seats": 43766,
+   "passengers": 5080
+  },
+  {
+   "from": "ENEV",
+   "to": "ENBO",
+   "flights": 858,
+   "seats": 45199,
+   "passengers": 21263
+  },
+  {
+   "from": "ENEV",
+   "to": "ENKR",
+   "flights": 1,
+   "seats": 189,
+   "passengers": 0
+  },
+  {
+   "from": "ENEV",
+   "to": "ENSB",
+   "flights": 1,
+   "seats": 10,
+   "passengers": 0
+  },
+  {
+   "from": "ENEV",
+   "to": "ENTC",
+   "flights": 67,
+   "seats": 3580,
+   "passengers": 14059
+  },
+  {
+   "from": "ENEV",
+   "to": "ENOL",
+   "flights": 98,
+   "seats": 4350,
+   "passengers": 0
+  },
+  {
+   "from": "ENEV",
+   "to": "ENAL",
+   "flights": 1,
+   "seats": 7,
+   "passengers": 0
+  },
+  {
+   "from": "ENHK",
+   "to": "ENBO",
+   "flights": 1,
+   "seats": 7,
+   "passengers": 0
+  },
+  {
+   "from": "ENHK",
+   "to": "ENHF",
+   "flights": 227,
+   "seats": 9278,
+   "passengers": 12667
+  },
+  {
+   "from": "ENHK",
+   "to": "ENHV",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 178
+  },
+  {
+   "from": "ENHK",
+   "to": "ENTC",
+   "flights": 325,
+   "seats": 12960,
+   "passengers": 8191
+  },
+  {
+   "from": "ENHD",
+   "to": "ENGM",
+   "flights": 1664,
+   "seats": 259026,
+   "passengers": 237271
+  },
+  {
+   "from": "ENHD",
+   "to": "ENZV",
+   "flights": 2,
+   "seats": 0,
+   "passengers": 0
+  },
+  {
+   "from": "ENHD",
+   "to": "ENBR",
+   "flights": 1121,
+   "seats": 46003,
+   "passengers": 2395
+  },
+  {
+   "from": "ENHV",
+   "to": "ENAT",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 39
+  },
+  {
+   "from": "ENHV",
+   "to": "ENHF",
+   "flights": 200,
+   "seats": 7958,
+   "passengers": 14835
+  },
+  {
+   "from": "ENHV",
+   "to": "ENMH",
+   "flights": 279,
+   "seats": 11340,
+   "passengers": 3426
+  },
+  {
+   "from": "ENHV",
+   "to": "ENTC",
+   "flights": 225,
+   "seats": 8994,
+   "passengers": 539
+  },
+  {
+   "from": "ENHV",
+   "to": "ENVD",
+   "flights": 8,
+   "seats": 321,
+   "passengers": 38
+  },
+  {
+   "from": "ENKR",
+   "to": "ENGM",
+   "flights": 736,
+   "seats": 136920,
+   "passengers": 116813
+  },
+  {
+   "from": "ENKR",
+   "to": "ENAT",
+   "flights": 248,
+   "seats": 9952,
+   "passengers": 7674
+  },
+  {
+   "from": "ENKR",
+   "to": "ENDU",
+   "flights": 1,
+   "seats": 174,
+   "passengers": 0
+  },
+  {
+   "from": "ENKR",
+   "to": "ENBV",
+   "flights": 1,
+   "seats": 40,
+   "passengers": 21
+  },
+  {
+   "from": "ENKR",
+   "to": "ENBO",
+   "flights": 1,
+   "seats": 78,
+   "passengers": 169
+  },
+  {
+   "from": "ENKR",
+   "to": "ENHF",
+   "flights": 3,
+   "seats": 159,
+   "passengers": 37
+  },
+  {
+   "from": "ENKR",
+   "to": "ENNA",
+   "flights": 2,
+   "seats": 79,
+   "passengers": 72
+  },
+  {
+   "from": "ENKR",
+   "to": "ENTC",
+   "flights": 902,
+   "seats": 56488,
+   "passengers": 16059
+  },
+  {
+   "from": "ENKR",
+   "to": "ENVD",
+   "flights": 625,
+   "seats": 25022,
+   "passengers": 16604
+  },
+  {
+   "from": "ENKR",
+   "to": "ENSS",
+   "flights": 274,
+   "seats": 10898,
+   "passengers": 6407
+  },
+  {
+   "from": "ENKR",
+   "to": "ENAL",
+   "flights": 2,
+   "seats": 19,
+   "passengers": 0
+  },
+  {
+   "from": "ENCN",
+   "to": "ENGM",
+   "flights": 1684,
+   "seats": 277147,
+   "passengers": 253601
+  },
+  {
+   "from": "ENCN",
+   "to": "ENZV",
+   "flights": 4,
+   "seats": 371,
+   "passengers": 4914
+  },
+  {
+   "from": "ENCN",
+   "to": "ENBR",
+   "flights": 1586,
+   "seats": 125001,
+   "passengers": 75545
+  },
+  {
+   "from": "ENCN",
+   "to": "ENBO",
+   "flights": 2,
+   "seats": 119,
+   "passengers": 75
+  },
+  {
+   "from": "ENCN",
+   "to": "ENHD",
+   "flights": 1,
+   "seats": 78,
+   "passengers": 182
+  },
+  {
+   "from": "ENCN",
+   "to": "ENNO",
+   "flights": 1,
+   "seats": 4,
+   "passengers": 0
+  },
+  {
+   "from": "ENCN",
+   "to": "ENTO",
+   "flights": 2,
+   "seats": 218,
+   "passengers": 169
+  },
+  {
+   "from": "ENCN",
+   "to": "ENSN",
+   "flights": 1,
+   "seats": 19,
+   "passengers": 0
+  },
+  {
+   "from": "ENKB",
+   "to": "ENGM",
+   "flights": 900,
+   "seats": 114109,
+   "passengers": 92718
+  },
+  {
+   "from": "ENKB",
+   "to": "ENBR",
+   "flights": 1246,
+   "seats": 95866,
+   "passengers": 29880
+  },
+  {
+   "from": "ENKB",
+   "to": "ENVA",
+   "flights": 1,
+   "seats": 189,
+   "passengers": 6680
+  },
+  {
+   "from": "ENKB",
+   "to": "ENBO",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 47
+  },
+  {
+   "from": "ENKB",
+   "to": "ENEV",
+   "flights": 1,
+   "seats": 78,
+   "passengers": 0
+  },
+  {
+   "from": "ENKB",
+   "to": "ENML",
+   "flights": 13,
+   "seats": 1014,
+   "passengers": 3287
+  },
+  {
+   "from": "ENKB",
+   "to": "ENAL",
+   "flights": 17,
+   "seats": 1328,
+   "passengers": 9
+  },
+  {
+   "from": "ENNA",
+   "to": "ENGM",
+   "flights": 99,
+   "seats": 18708,
+   "passengers": 2617
+  },
+  {
+   "from": "ENNA",
+   "to": "ENAT",
+   "flights": 4,
+   "seats": 183,
+   "passengers": 86
+  },
+  {
+   "from": "ENNA",
+   "to": "ENDU",
+   "flights": 2,
+   "seats": 348,
+   "passengers": 0
+  },
+  {
+   "from": "ENNA",
+   "to": "ENBS",
+   "flights": 1,
+   "seats": 40,
+   "passengers": 0
+  },
+  {
+   "from": "ENNA",
+   "to": "ENHK",
+   "flights": 3,
+   "seats": 119,
+   "passengers": 6
+  },
+  {
+   "from": "ENNA",
+   "to": "ENHV",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 27
+  },
+  {
+   "from": "ENNA",
+   "to": "ENKR",
+   "flights": 2,
+   "seats": 369,
+   "passengers": 241
+  },
+  {
+   "from": "ENNA",
+   "to": "ENMH",
+   "flights": 7,
+   "seats": 275,
+   "passengers": 5
+  },
+  {
+   "from": "ENNA",
+   "to": "ENTC",
+   "flights": 965,
+   "seats": 44386,
+   "passengers": 26235
+  },
+  {
+   "from": "ENNA",
+   "to": "ENVD",
+   "flights": 11,
+   "seats": 430,
+   "passengers": 28
+  },
+  {
+   "from": "ENMH",
+   "to": "ENAT",
+   "flights": 5,
+   "seats": 206,
+   "passengers": 0
+  },
+  {
+   "from": "ENMH",
+   "to": "ENHF",
+   "flights": 63,
+   "seats": 2578,
+   "passengers": 368
+  },
+  {
+   "from": "ENMH",
+   "to": "ENHV",
+   "flights": 411,
+   "seats": 16402,
+   "passengers": 9338
+  },
+  {
+   "from": "ENMH",
+   "to": "ENKR",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 92
+  },
+  {
+   "from": "ENMH",
+   "to": "ENNA",
+   "flights": 1,
+   "seats": 40,
+   "passengers": 0
+  },
+  {
+   "from": "ENMH",
+   "to": "ENTC",
+   "flights": 49,
+   "seats": 2026,
+   "passengers": 145
+  },
+  {
+   "from": "ENMH",
+   "to": "ENVD",
+   "flights": 281,
+   "seats": 11444,
+   "passengers": 1901
+  },
+  {
+   "from": "ENRA",
+   "to": "ENVA",
+   "flights": 1046,
+   "seats": 42092,
+   "passengers": 24538
+  },
+  {
+   "from": "ENRA",
+   "to": "ENBO",
+   "flights": 915,
+   "seats": 36750,
+   "passengers": 24821
+  },
+  {
+   "from": "ENRA",
+   "to": "ENBN",
+   "flights": 1,
+   "seats": 40,
+   "passengers": 39
+  },
+  {
+   "from": "ENRA",
+   "to": "ENMS",
+   "flights": 52,
+   "seats": 2039,
+   "passengers": 667
+  },
+  {
+   "from": "ENRA",
+   "to": "ENRO",
+   "flights": 3,
+   "seats": 139,
+   "passengers": 0
+  },
+  {
+   "from": "ENRA",
+   "to": "ENRM",
+   "flights": 1,
+   "seats": 50,
+   "passengers": 112
+  },
+  {
+   "from": "ENML",
+   "to": "ENGM",
+   "flights": 926,
+   "seats": 171656,
+   "passengers": 178296
+  },
+  {
+   "from": "ENML",
+   "to": "ENZV",
+   "flights": 1,
+   "seats": 16,
+   "passengers": 207
+  },
+  {
+   "from": "ENML",
+   "to": "ENBR",
+   "flights": 940,
+   "seats": 72134,
+   "passengers": 27536
+  },
+  {
+   "from": "ENML",
+   "to": "ENVA",
+   "flights": 1,
+   "seats": 70,
+   "passengers": 0
+  },
+  {
+   "from": "ENML",
+   "to": "ENBO",
+   "flights": 3,
+   "seats": 117,
+   "passengers": 48
+  },
+  {
+   "from": "ENML",
+   "to": "ENTC",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 0
+  },
+  {
+   "from": "ENML",
+   "to": "ENAL",
+   "flights": 5,
+   "seats": 390,
+   "passengers": 78
+  },
+  {
+   "from": "ENMS",
+   "to": "ENVA",
+   "flights": 893,
+   "seats": 35762,
+   "passengers": 23649
+  },
+  {
+   "from": "ENMS",
+   "to": "ENBO",
+   "flights": 589,
+   "seats": 23399,
+   "passengers": 12518
+  },
+  {
+   "from": "ENMS",
+   "to": "ENRA",
+   "flights": 53,
+   "seats": 2077,
+   "passengers": 596
+  },
+  {
+   "from": "ENMS",
+   "to": "ENNM",
+   "flights": 1,
+   "seats": 40,
+   "passengers": 0
+  },
+  {
+   "from": "ENMS",
+   "to": "ENRM",
+   "flights": 2,
+   "seats": 119,
+   "passengers": 50
+  },
+  {
+   "from": "ENNM",
+   "to": "ENVA",
+   "flights": 581,
+   "seats": 23131,
+   "passengers": 17973
+  },
+  {
+   "from": "ENNM",
+   "to": "ENRM",
+   "flights": 292,
+   "seats": 11575,
+   "passengers": 5134
+  },
+  {
+   "from": "ENNO",
+   "to": "ENGM",
+   "flights": 2,
+   "seats": 14,
+   "passengers": 0
+  },
+  {
+   "from": "ENRO",
+   "to": "ENGM",
+   "flights": 513,
+   "seats": 24485,
+   "passengers": 12909
+  },
+  {
+   "from": "ENRO",
+   "to": "ENBO",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 0
+  },
+  {
+   "from": "ENRO",
+   "to": "ENRA",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 0
+  },
+  {
+   "from": "ENRO",
+   "to": "ENRM",
+   "flights": 1,
+   "seats": 5,
+   "passengers": 0
+  },
+  {
+   "from": "ENRO",
+   "to": "ENTO",
+   "flights": 1,
+   "seats": 50,
+   "passengers": 0
+  },
+  {
+   "from": "ENRO",
+   "to": "ENST",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 0
+  },
+  {
+   "from": "ENRO",
+   "to": "ENOL",
+   "flights": 2,
+   "seats": 96,
+   "passengers": 0
+  },
+  {
+   "from": "ENRM",
+   "to": "ENVA",
+   "flights": 568,
+   "seats": 22606,
+   "passengers": 13374
+  },
+  {
+   "from": "ENRM",
+   "to": "ENNM",
+   "flights": 285,
+   "seats": 11304,
+   "passengers": 9030
+  },
+  {
+   "from": "ENRM",
+   "to": "ENRO",
+   "flights": 1,
+   "seats": 5,
+   "passengers": 0
+  },
+  {
+   "from": "ENRS",
+   "to": "ENBO",
+   "flights": 300,
+   "seats": 12206,
+   "passengers": 6149
+  },
+  {
+   "from": "ENRS",
+   "to": "ENSH",
+   "flights": 2,
+   "seats": 74,
+   "passengers": 4690
+  },
+  {
+   "from": "ENRS",
+   "to": "ENLK",
+   "flights": 293,
+   "seats": 11927,
+   "passengers": 36
+  },
+  {
+   "from": "ENSD",
+   "to": "ENGM",
+   "flights": 700,
+   "seats": 27744,
+   "passengers": 16268
+  },
+  {
+   "from": "ENSD",
+   "to": "ENBR",
+   "flights": 4,
+   "seats": 118,
+   "passengers": 0
+  },
+  {
+   "from": "ENSD",
+   "to": "ENSG",
+   "flights": 535,
+   "seats": 21125,
+   "passengers": 7851
+  },
+  {
+   "from": "ENSD",
+   "to": "ENOV",
+   "flights": 5,
+   "seats": 196,
+   "passengers": 76
+  },
+  {
+   "from": "ENTO",
+   "to": "ENGM",
+   "flights": 5,
+   "seats": 403,
+   "passengers": 202
+  },
+  {
+   "from": "ENTO",
+   "to": "ENZV",
+   "flights": 625,
+   "seats": 48750,
+   "passengers": 40104
+  },
+  {
+   "from": "ENTO",
+   "to": "ENBR",
+   "flights": 1634,
+   "seats": 134089,
+   "passengers": 81475
+  },
+  {
+   "from": "ENTO",
+   "to": "ENVA",
+   "flights": 678,
+   "seats": 52753,
+   "passengers": 48157
+  },
+  {
+   "from": "ENTO",
+   "to": "ENBO",
+   "flights": 1,
+   "seats": 76,
+   "passengers": 831
+  },
+  {
+   "from": "ENTO",
+   "to": "ENCN",
+   "flights": 1,
+   "seats": 13,
+   "passengers": 199
+  },
+  {
+   "from": "ENTO",
+   "to": "ENSH",
+   "flights": 1,
+   "seats": 76,
+   "passengers": 0
+  },
+  {
+   "from": "ENST",
+   "to": "ENGM",
+   "flights": 53,
+   "seats": 2628,
+   "passengers": 5200
+  },
+  {
+   "from": "ENST",
+   "to": "ENVA",
+   "flights": 836,
+   "seats": 36933,
+   "passengers": 19252
+  },
+  {
+   "from": "ENST",
+   "to": "ENBO",
+   "flights": 629,
+   "seats": 27118,
+   "passengers": 12899
+  },
+  {
+   "from": "ENST",
+   "to": "ENBN",
+   "flights": 55,
+   "seats": 2717,
+   "passengers": 947
+  },
+  {
+   "from": "ENST",
+   "to": "ENNM",
+   "flights": 1,
+   "seats": 50,
+   "passengers": 15
+  },
+  {
+   "from": "ENSG",
+   "to": "ENGM",
+   "flights": 896,
+   "seats": 35440,
+   "passengers": 19466
+  },
+  {
+   "from": "ENSG",
+   "to": "ENBR",
+   "flights": 565,
+   "seats": 22426,
+   "passengers": 11962
+  },
+  {
+   "from": "ENSG",
+   "to": "ENBO",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 0
+  },
+  {
+   "from": "ENSG",
+   "to": "ENBL",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 38
+  },
+  {
+   "from": "ENSG",
+   "to": "ENSD",
+   "flights": 586,
+   "seats": 23165,
+   "passengers": 14154
+  },
+  {
+   "from": "ENSG",
+   "to": "ENOV",
+   "flights": 559,
+   "seats": 22156,
+   "passengers": 4934
+  },
+  {
+   "from": "ENSG",
+   "to": "ENAL",
+   "flights": 14,
+   "seats": 547,
+   "passengers": 35
+  },
+  {
+   "from": "ENSK",
+   "to": "ENBR",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 0
+  },
+  {
+   "from": "ENSK",
+   "to": "ENBO",
+   "flights": 1659,
+   "seats": 67495,
+   "passengers": 40550
+  },
+  {
+   "from": "ENSK",
+   "to": "ENTC",
+   "flights": 614,
+   "seats": 25330,
+   "passengers": 14715
+  },
+  {
+   "from": "ENSK",
+   "to": "ENLK",
+   "flights": 2,
+   "seats": 79,
+   "passengers": 36
+  },
+  {
+   "from": "ENSO",
+   "to": "ENGM",
+   "flights": 777,
+   "seats": 35517,
+   "passengers": 19752
+  },
+  {
+   "from": "ENSO",
+   "to": "ENBR",
+   "flights": 1,
+   "seats": 2,
+   "passengers": 0
+  },
+  {
+   "from": "ENSO",
+   "to": "ENFL",
+   "flights": 1,
+   "seats": 46,
+   "passengers": 0
+  },
+  {
+   "from": "ENSB",
+   "to": "ENGM",
+   "flights": 524,
+   "seats": 96091,
+   "passengers": 58112
+  },
+  {
+   "from": "ENSB",
+   "to": "ENBR",
+   "flights": 1,
+   "seats": 10,
+   "passengers": 10
+  },
+  {
+   "from": "ENSB",
+   "to": "ENVA",
+   "flights": 1,
+   "seats": 10,
+   "passengers": 0
+  },
+  {
+   "from": "ENSB",
+   "to": "ENAN",
+   "flights": 2,
+   "seats": 100,
+   "passengers": 0
+  },
+  {
+   "from": "ENSB",
+   "to": "ENBO",
+   "flights": 2,
+   "seats": 15,
+   "passengers": 80
+  },
+  {
+   "from": "ENSB",
+   "to": "ENEV",
+   "flights": 2,
+   "seats": 19,
+   "passengers": 22
+  },
+  {
+   "from": "ENSB",
+   "to": "ENTC",
+   "flights": 211,
+   "seats": 39168,
+   "passengers": 27746
+  },
+  {
+   "from": "ENSB",
+   "to": "ENAL",
+   "flights": 1,
+   "seats": 15,
+   "passengers": 0
+  },
+  {
+   "from": "ENSH",
+   "to": "ENGM",
+   "flights": 56,
+   "seats": 2184,
+   "passengers": 3766
+  },
+  {
+   "from": "ENSH",
+   "to": "ENBO",
+   "flights": 1790,
+   "seats": 72134,
+   "passengers": 38132
+  },
+  {
+   "from": "ENSH",
+   "to": "ENRS",
+   "flights": 4,
+   "seats": 155,
+   "passengers": 6092
+  },
+  {
+   "from": "ENSH",
+   "to": "ENSK",
+   "flights": 1,
+   "seats": 37,
+   "passengers": 1722
+  },
+  {
+   "from": "ENSH",
+   "to": "ENTC",
+   "flights": 124,
+   "seats": 4919,
+   "passengers": 11
+  },
+  {
+   "from": "ENSR",
+   "to": "ENTC",
+   "flights": 561,
+   "seats": 23095,
+   "passengers": 9348
+  },
+  {
+   "from": "ENTC",
+   "to": "ENGM",
+   "flights": 4122,
+   "seats": 753489,
+   "passengers": 621970
+  },
+  {
+   "from": "ENTC",
+   "to": "ENBR",
+   "flights": 1113,
+   "seats": 117825,
+   "passengers": 56320
+  },
+  {
+   "from": "ENTC",
+   "to": "ENVA",
+   "flights": 602,
+   "seats": 47062,
+   "passengers": 5960
+  },
+  {
+   "from": "ENTC",
+   "to": "ENAT",
+   "flights": 1526,
+   "seats": 137301,
+   "passengers": 92580
+  },
+  {
+   "from": "ENTC",
+   "to": "ENAN",
+   "flights": 606,
+   "seats": 31802,
+   "passengers": 13724
+  },
+  {
+   "from": "ENTC",
+   "to": "ENDU",
+   "flights": 1,
+   "seats": 7,
+   "passengers": 0
+  },
+  {
+   "from": "ENTC",
+   "to": "ENBO",
+   "flights": 1498,
+   "seats": 144274,
+   "passengers": 128593
+  },
+  {
+   "from": "ENTC",
+   "to": "ENBS",
+   "flights": 22,
+   "seats": 861,
+   "passengers": 28
+  },
+  {
+   "from": "ENTC",
+   "to": "ENHF",
+   "flights": 2643,
+   "seats": 106550,
+   "passengers": 41805
+  },
+  {
+   "from": "ENTC",
+   "to": "ENEV",
+   "flights": 67,
+   "seats": 4430,
+   "passengers": 14189
+  },
+  {
+   "from": "ENTC",
+   "to": "ENHK",
+   "flights": 271,
+   "seats": 10998,
+   "passengers": 12961
+  },
+  {
+   "from": "ENTC",
+   "to": "ENHV",
+   "flights": 45,
+   "seats": 1867,
+   "passengers": 180
+  },
+  {
+   "from": "ENTC",
+   "to": "ENKR",
+   "flights": 909,
+   "seats": 56698,
+   "passengers": 19545
+  },
+  {
+   "from": "ENTC",
+   "to": "ENKB",
+   "flights": 1,
+   "seats": 56,
+   "passengers": 0
+  },
+  {
+   "from": "ENTC",
+   "to": "ENNA",
+   "flights": 987,
+   "seats": 45298,
+   "passengers": 26319
+  },
+  {
+   "from": "ENTC",
+   "to": "ENMH",
+   "flights": 16,
+   "seats": 626,
+   "passengers": 44
+  },
+  {
+   "from": "ENTC",
+   "to": "ENML",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 0
+  },
+  {
+   "from": "ENTC",
+   "to": "ENTO",
+   "flights": 1,
+   "seats": 76,
+   "passengers": 860
+  },
+  {
+   "from": "ENTC",
+   "to": "ENSK",
+   "flights": 613,
+   "seats": 25039,
+   "passengers": 13266
+  },
+  {
+   "from": "ENTC",
+   "to": "ENSB",
+   "flights": 195,
+   "seats": 35817,
+   "passengers": 27843
+  },
+  {
+   "from": "ENTC",
+   "to": "ENSH",
+   "flights": 125,
+   "seats": 5050,
+   "passengers": 64
+  },
+  {
+   "from": "ENTC",
+   "to": "ENSR",
+   "flights": 560,
+   "seats": 23056,
+   "passengers": 11428
+  },
+  {
+   "from": "ENTC",
+   "to": "ENVD",
+   "flights": 13,
+   "seats": 510,
+   "passengers": 18875
+  },
+  {
+   "from": "ENTC",
+   "to": "ENSS",
+   "flights": 3,
+   "seats": 120,
+   "passengers": 107
+  },
+  {
+   "from": "ENTC",
+   "to": "ENLK",
+   "flights": 349,
+   "seats": 14122,
+   "passengers": 8751
+  },
+  {
+   "from": "ENTC",
+   "to": "ENAL",
+   "flights": 1,
+   "seats": 9,
+   "passengers": 0
+  },
+  {
+   "from": "ENVD",
+   "to": "ENAT",
+   "flights": 27,
+   "seats": 1056,
+   "passengers": 4375
+  },
+  {
+   "from": "ENVD",
+   "to": "ENBV",
+   "flights": 280,
+   "seats": 11124,
+   "passengers": 0
+  },
+  {
+   "from": "ENVD",
+   "to": "ENBO",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 0
+  },
+  {
+   "from": "ENVD",
+   "to": "ENBS",
+   "flights": 286,
+   "seats": 11449,
+   "passengers": 6929
+  },
+  {
+   "from": "ENVD",
+   "to": "ENHF",
+   "flights": 300,
+   "seats": 12075,
+   "passengers": 3916
+  },
+  {
+   "from": "ENVD",
+   "to": "ENHV",
+   "flights": 6,
+   "seats": 236,
+   "passengers": 32
+  },
+  {
+   "from": "ENVD",
+   "to": "ENKR",
+   "flights": 615,
+   "seats": 24792,
+   "passengers": 15067
+  },
+  {
+   "from": "ENVD",
+   "to": "ENMH",
+   "flights": 235,
+   "seats": 9375,
+   "passengers": 648
+  },
+  {
+   "from": "ENVD",
+   "to": "ENTC",
+   "flights": 83,
+   "seats": 3399,
+   "passengers": 20006
+  },
+  {
+   "from": "ENVD",
+   "to": "ENSS",
+   "flights": 520,
+   "seats": 20933,
+   "passengers": 12582
+  },
+  {
+   "from": "ENSS",
+   "to": "ENBV",
+   "flights": 9,
+   "seats": 361,
+   "passengers": 95
+  },
+  {
+   "from": "ENSS",
+   "to": "ENBS",
+   "flights": 267,
+   "seats": 10751,
+   "passengers": 9259
+  },
+  {
+   "from": "ENSS",
+   "to": "ENKR",
+   "flights": 241,
+   "seats": 9700,
+   "passengers": 8341
+  },
+  {
+   "from": "ENSS",
+   "to": "ENTC",
+   "flights": 3,
+   "seats": 120,
+   "passengers": 0
+  },
+  {
+   "from": "ENSS",
+   "to": "ENVD",
+   "flights": 279,
+   "seats": 11096,
+   "passengers": 5771
+  },
+  {
+   "from": "ENLK",
+   "to": "ENGM",
+   "flights": 75,
+   "seats": 2862,
+   "passengers": 3866
+  },
+  {
+   "from": "ENLK",
+   "to": "ENBR",
+   "flights": 18,
+   "seats": 702,
+   "passengers": 0
+  },
+  {
+   "from": "ENLK",
+   "to": "ENBO",
+   "flights": 2366,
+   "seats": 95627,
+   "passengers": 57724
+  },
+  {
+   "from": "ENLK",
+   "to": "ENRS",
+   "flights": 294,
+   "seats": 11975,
+   "passengers": 27
+  },
+  {
+   "from": "ENLK",
+   "to": "ENTO",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 0
+  },
+  {
+   "from": "ENLK",
+   "to": "ENSH",
+   "flights": 3,
+   "seats": 117,
+   "passengers": 0
+  },
+  {
+   "from": "ENLK",
+   "to": "ENTC",
+   "flights": 346,
+   "seats": 14036,
+   "passengers": 8880
+  },
+  {
+   "from": "ENLK",
+   "to": "ENAL",
+   "flights": 1,
+   "seats": 10,
+   "passengers": 0
+  },
+  {
+   "from": "ENVR",
+   "to": "ENBO",
+   "flights": 561,
+   "seats": 8415,
+   "passengers": 3957
+  },
+  {
+   "from": "ENOL",
+   "to": "ENGM",
+   "flights": 459,
+   "seats": 20488,
+   "passengers": 11333
+  },
+  {
+   "from": "ENOL",
+   "to": "ENBO",
+   "flights": 1,
+   "seats": 48,
+   "passengers": 0
+  },
+  {
+   "from": "ENOL",
+   "to": "ENEV",
+   "flights": 96,
+   "seats": 4266,
+   "passengers": 0
+  },
+  {
+   "from": "ENOL",
+   "to": "ENRO",
+   "flights": 4,
+   "seats": 190,
+   "passengers": 0
+  },
+  {
+   "from": "ENOV",
+   "to": "ENGM",
+   "flights": 1844,
+   "seats": 73331,
+   "passengers": 41644
+  },
+  {
+   "from": "ENOV",
+   "to": "ENBR",
+   "flights": 376,
+   "seats": 14907,
+   "passengers": 6234
+  },
+  {
+   "from": "ENOV",
+   "to": "ENFL",
+   "flights": 2,
+   "seats": 79,
+   "passengers": 1803
+  },
+  {
+   "from": "ENOV",
+   "to": "ENBL",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 9
+  },
+  {
+   "from": "ENOV",
+   "to": "ENSD",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 1982
+  },
+  {
+   "from": "ENOV",
+   "to": "ENSG",
+   "flights": 556,
+   "seats": 22073,
+   "passengers": 4661
+  },
+  {
+   "from": "ENOV",
+   "to": "ENAL",
+   "flights": 1,
+   "seats": 50,
+   "passengers": 0
+  },
+  {
+   "from": "ENAL",
+   "to": "ENGM",
+   "flights": 2297,
+   "seats": 369103,
+   "passengers": 329851
+  },
+  {
+   "from": "ENAL",
+   "to": "ENZV",
+   "flights": 21,
+   "seats": 218,
+   "passengers": 23
+  },
+  {
+   "from": "ENAL",
+   "to": "ENBR",
+   "flights": 1480,
+   "seats": 115376,
+   "passengers": 68578
+  },
+  {
+   "from": "ENAL",
+   "to": "ENVA",
+   "flights": 417,
+   "seats": 25344,
+   "passengers": 30016
+  },
+  {
+   "from": "ENAL",
+   "to": "ENAT",
+   "flights": 1,
+   "seats": 7,
+   "passengers": 0
+  },
+  {
+   "from": "ENAL",
+   "to": "ENBO",
+   "flights": 1,
+   "seats": 7,
+   "passengers": 0
+  },
+  {
+   "from": "ENAL",
+   "to": "ENCN",
+   "flights": 2,
+   "seats": 41,
+   "passengers": 0
+  },
+  {
+   "from": "ENAL",
+   "to": "ENKB",
+   "flights": 1,
+   "seats": 10,
+   "passengers": 3929
+  },
+  {
+   "from": "ENAL",
+   "to": "ENML",
+   "flights": 3,
+   "seats": 283,
+   "passengers": 170
+  },
+  {
+   "from": "ENAL",
+   "to": "ENNO",
+   "flights": 1,
+   "seats": 7,
+   "passengers": 0
+  },
+  {
+   "from": "ENAL",
+   "to": "ENSG",
+   "flights": 8,
+   "seats": 276,
+   "passengers": 10
+  },
+  {
+   "from": "ENAL",
+   "to": "ENSB",
+   "flights": 1,
+   "seats": 18,
+   "passengers": 0
+  },
+  {
+   "from": "ENAL",
+   "to": "ENTC",
+   "flights": 3,
+   "seats": 56,
+   "passengers": 2
+  },
+  {
+   "from": "ENAL",
+   "to": "ENOV",
+   "flights": 1,
+   "seats": 39,
+   "passengers": 0
+  },
+  {
+   "from": "ENGM",
+   "to": "ENHK",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 4
+  },
+  {
+   "from": "ENGM",
+   "to": "ENHV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 11
+  },
+  {
+   "from": "ENGM",
+   "to": "ENMS",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 1165
+  },
+  {
+   "from": "ENGM",
+   "to": "ENNM",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 4378
+  },
+  {
+   "from": "ENGM",
+   "to": "ENRM",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 871
+  },
+  {
+   "from": "ENZV",
+   "to": "ENAT",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 40
+  },
+  {
+   "from": "ENZV",
+   "to": "ENFL",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 17
+  },
+  {
+   "from": "ENZV",
+   "to": "ENCN",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 4972
+  },
+  {
+   "from": "ENZV",
+   "to": "ENML",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 32
+  },
+  {
+   "from": "ENZV",
+   "to": "ENST",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 28
+  },
+  {
+   "from": "ENZV",
+   "to": "ENAL",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 5
+  },
+  {
+   "from": "ENBR",
+   "to": "ENNO",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 668
+  },
+  {
+   "from": "ENBR",
+   "to": "ENRO",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 77
+  },
+  {
+   "from": "ENVA",
+   "to": "ENHD",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 74
+  },
+  {
+   "from": "ENVA",
+   "to": "ENKR",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 112
+  },
+  {
+   "from": "ENVA",
+   "to": "ENCN",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 30405
+  },
+  {
+   "from": "ENAT",
+   "to": "ENZV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 36
+  },
+  {
+   "from": "ENAT",
+   "to": "ENEV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 18
+  },
+  {
+   "from": "ENAT",
+   "to": "ENSR",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 2964
+  },
+  {
+   "from": "ENAT",
+   "to": "ENSS",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 35
+  },
+  {
+   "from": "ENAN",
+   "to": "ENLK",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 21
+  },
+  {
+   "from": "ENDU",
+   "to": "ENVA",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 150
+  },
+  {
+   "from": "ENDU",
+   "to": "ENEV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 61
+  },
+  {
+   "from": "ENDU",
+   "to": "ENTC",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 41
+  },
+  {
+   "from": "ENBV",
+   "to": "ENBS",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 3261
+  },
+  {
+   "from": "ENBV",
+   "to": "ENSS",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 71
+  },
+  {
+   "from": "ENBO",
+   "to": "ENHD",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 85
+  },
+  {
+   "from": "ENBN",
+   "to": "ENBR",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 65
+  },
+  {
+   "from": "ENBN",
+   "to": "ENEV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 33
+  },
+  {
+   "from": "ENBN",
+   "to": "ENOL",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 17
+  },
+  {
+   "from": "ENBS",
+   "to": "ENHV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 70
+  },
+  {
+   "from": "ENBS",
+   "to": "ENMH",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 6567
+  },
+  {
+   "from": "ENFL",
+   "to": "ENSD",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 22
+  },
+  {
+   "from": "ENFL",
+   "to": "ENSG",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 109
+  },
+  {
+   "from": "ENBL",
+   "to": "ENFL",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 1964
+  },
+  {
+   "from": "ENHF",
+   "to": "ENBV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 2971
+  },
+  {
+   "from": "ENHF",
+   "to": "ENEV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 22
+  },
+  {
+   "from": "ENHF",
+   "to": "ENSR",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 41
+  },
+  {
+   "from": "ENEV",
+   "to": "ENAT",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 21
+  },
+  {
+   "from": "ENEV",
+   "to": "ENRA",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 25
+  },
+  {
+   "from": "ENEV",
+   "to": "ENTO",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 34
+  },
+  {
+   "from": "ENHK",
+   "to": "ENAT",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 65
+  },
+  {
+   "from": "ENHD",
+   "to": "ENVA",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 73
+  },
+  {
+   "from": "ENHD",
+   "to": "ENBO",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 77
+  },
+  {
+   "from": "ENHD",
+   "to": "ENCN",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 1500
+  },
+  {
+   "from": "ENHD",
+   "to": "ENKB",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 34
+  },
+  {
+   "from": "ENHD",
+   "to": "ENML",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 25
+  },
+  {
+   "from": "ENHD",
+   "to": "ENTO",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 96
+  },
+  {
+   "from": "ENHD",
+   "to": "ENAL",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 8
+  },
+  {
+   "from": "ENHV",
+   "to": "ENGM",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 23
+  },
+  {
+   "from": "ENHV",
+   "to": "ENKR",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 12
+  },
+  {
+   "from": "ENKR",
+   "to": "ENBR",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 159
+  },
+  {
+   "from": "ENKR",
+   "to": "ENBS",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 104
+  },
+  {
+   "from": "ENKR",
+   "to": "ENMH",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 41
+  },
+  {
+   "from": "ENCN",
+   "to": "ENVA",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 30403
+  },
+  {
+   "from": "ENKB",
+   "to": "ENHD",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 167
+  },
+  {
+   "from": "ENKB",
+   "to": "ENTO",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 47
+  },
+  {
+   "from": "ENNA",
+   "to": "ENBV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 12
+  },
+  {
+   "from": "ENNA",
+   "to": "ENHF",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 19
+  },
+  {
+   "from": "ENNA",
+   "to": "ENEV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 27
+  },
+  {
+   "from": "ENMH",
+   "to": "ENBV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 4009
+  },
+  {
+   "from": "ENRA",
+   "to": "ENGM",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 4576
+  },
+  {
+   "from": "ENRA",
+   "to": "ENEV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 21
+  },
+  {
+   "from": "ENRA",
+   "to": "ENST",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 63
+  },
+  {
+   "from": "ENRA",
+   "to": "ENLK",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 1
+  },
+  {
+   "from": "ENML",
+   "to": "ENHD",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 25
+  },
+  {
+   "from": "ENML",
+   "to": "ENCN",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 20
+  },
+  {
+   "from": "ENML",
+   "to": "ENKB",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 668
+  },
+  {
+   "from": "ENML",
+   "to": "ENTO",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 27
+  },
+  {
+   "from": "ENMS",
+   "to": "ENGM",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 1329
+  },
+  {
+   "from": "ENNM",
+   "to": "ENGM",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 4981
+  },
+  {
+   "from": "ENNM",
+   "to": "ENRO",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 5
+  },
+  {
+   "from": "ENNO",
+   "to": "ENBR",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 3
+  },
+  {
+   "from": "ENRO",
+   "to": "ENBR",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 78
+  },
+  {
+   "from": "ENRO",
+   "to": "ENVA",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 10
+  },
+  {
+   "from": "ENRO",
+   "to": "ENBN",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 26
+  },
+  {
+   "from": "ENRO",
+   "to": "ENNM",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 5
+  },
+  {
+   "from": "ENRM",
+   "to": "ENGM",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 820
+  },
+  {
+   "from": "ENRM",
+   "to": "ENBN",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 1
+  },
+  {
+   "from": "ENTO",
+   "to": "ENHD",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 94
+  },
+  {
+   "from": "ENTO",
+   "to": "ENKB",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 47
+  },
+  {
+   "from": "ENTO",
+   "to": "ENML",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 27
+  },
+  {
+   "from": "ENTO",
+   "to": "ENSB",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 183
+  },
+  {
+   "from": "ENTO",
+   "to": "ENTC",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 934
+  },
+  {
+   "from": "ENTO",
+   "to": "ENAL",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 9
+  },
+  {
+   "from": "ENST",
+   "to": "ENZV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 28
+  },
+  {
+   "from": "ENST",
+   "to": "ENRA",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 1
+  },
+  {
+   "from": "ENST",
+   "to": "ENMS",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 26
+  },
+  {
+   "from": "ENST",
+   "to": "ENRM",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 3181
+  },
+  {
+   "from": "ENSG",
+   "to": "ENFL",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 1728
+  },
+  {
+   "from": "ENSK",
+   "to": "ENGM",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 909
+  },
+  {
+   "from": "ENSK",
+   "to": "ENAN",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 96
+  },
+  {
+   "from": "ENSK",
+   "to": "ENEV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 2
+  },
+  {
+   "from": "ENSK",
+   "to": "ENSH",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 35
+  },
+  {
+   "from": "ENSB",
+   "to": "ENTO",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 185
+  },
+  {
+   "from": "ENSH",
+   "to": "ENRO",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 30
+  },
+  {
+   "from": "ENSH",
+   "to": "ENLK",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 89
+  },
+  {
+   "from": "ENSR",
+   "to": "ENAT",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 67
+  },
+  {
+   "from": "ENSR",
+   "to": "ENHF",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 4920
+  },
+  {
+   "from": "ENSR",
+   "to": "ENNA",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 13
+  },
+  {
+   "from": "ENSR",
+   "to": "ENSK",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 39
+  },
+  {
+   "from": "ENTC",
+   "to": "ENBV",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 68
+  },
+  {
+   "from": "ENTC",
+   "to": "ENCN",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 10
+  },
+  {
+   "from": "ENVD",
+   "to": "ENDU",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 39
+  },
+  {
+   "from": "ENVD",
+   "to": "ENNA",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 15
+  },
+  {
+   "from": "ENVD",
+   "to": "ENSR",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 6
+  },
+  {
+   "from": "ENSS",
+   "to": "ENHF",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 23
+  },
+  {
+   "from": "ENLK",
+   "to": "ENSK",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 44
+  },
+  {
+   "from": "ENAL",
+   "to": "ENBN",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 12
+  },
+  {
+   "from": "ENAL",
+   "to": "ENFL",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 61
+  },
+  {
+   "from": "ENAL",
+   "to": "ENBL",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 8
+  },
+  {
+   "from": "ENAL",
+   "to": "ENHD",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 16
+  },
+  {
+   "from": "ENAL",
+   "to": "ENSD",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 15
+  },
+  {
+   "from": "ENAL",
+   "to": "ENTO",
+   "flights": 0,
+   "seats": 0,
+   "passengers": 2
+  }
+ ]
+}
